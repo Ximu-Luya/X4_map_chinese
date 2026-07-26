@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>X4 Foundations Interactive Map v9.0, Universe, Free &amp; Derelict Ships | Veanturverse</title>
+<meta name="description" content="Interactive X4 galaxy &amp; sector map for v9.0, every sector, faction and gate across all DLCs, plus free, derelict &amp; abandoned ship locations and a jump-gate route planner. Pan, zoom, search." />
+<meta name="keywords" content="x4 map, X4 Foundations map, X4 Foundations map v9.0, X4 universe map, X4 sector map, X4 galaxy map interactive, X4 free ships, X4 derelict ships, X4 abandoned ships, X4 free ship locations, X4 faction territories, X4 gate connections" />
+<link rel="canonical" href="https://veanturverse.com/guides/x4-universe-map.html" />
+<meta property="og:title" content="X4 Foundations Interactive Map v9.0, Universe, Free &amp; Derelict Ships" />
+<meta property="og:description" content="Explore the full X4: Foundations universe, sectors, factions, gate links, free/derelict ship locations and a route planner. All DLCs, v9.0." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://veanturverse.com/guides/x4-universe-map.html" />
+<meta property="og:image" content="https://veanturverse.com/assets/x4/universe-map-preview.png" />
+<meta property="og:image:width" content="1270" />
+<meta property="og:image:height" content="820" />
+<meta property="og:image:alt" content="Interactive X4: Foundations hex universe map, sectors coloured by faction" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:site_name" content="Veanturverse" />
+<meta property="og:locale" content="en_US" />
+<meta name="theme-color" content="#0a0e1a" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="X4 Foundations Interactive Map v9.0, Universe, Free &amp; Derelict Ships" />
+<meta name="twitter:description" content="Full X4 universe map across all DLCs with free/derelict ship locations and a jump-gate route planner." />
+<meta name="twitter:image" content="https://veanturverse.com/assets/x4/universe-map-preview.png" />
+<meta name="twitter:image:alt" content="Interactive X4: Foundations hex universe map" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "X4 Foundations Map v9.0",
+  "alternateName": ["X4 Universe Map", "X4 Foundations Map", "X4 Free Ships Map"],
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Web",
+  "browserRequirements": "Requires JavaScript",
+  "url": "https://veanturverse.com/guides/x4-universe-map.html",
+  "image": "https://veanturverse.com/assets/x4/universe-map-preview.png",
+  "description": "Interactive map of the full X4: Foundations universe, sectors, factions, gate links, free/derelict ship locations and a route planner across all DLCs.",
+  "about": { "@type": "VideoGame", "name": "X4: Foundations" },
+  "publisher": { "@type": "Organization", "name": "Veanturverse" },
+  "isAccessibleForFree": true,
+  "inLanguage": "en"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Where do I find free ships in X4: Foundations?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Free, derelict and abandoned ships are ownerless wrecks scattered across the galaxy. Known spots include Grand Exchange I (Elite Vanguard), Silent Witness XII (Perseus Vanguard), Nopileos' Fortune II (Courier Vanguard), Company Regard (Osprey Vanguard), The Void (Drill Vanguard) and Faulty Logic VII (Odysseus Vanguard). Toggle the Free Ships lens on the map to see every sector." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the best free ship in X4?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The Odysseus Vanguard, an L-class destroyer in Faulty Logic VII, is the strongest derelict, since 4.0 HF2 it spawns fully equipped, so you can claim it by spacewalking to the bridge." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I claim a derelict ship in X4?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Leave your ship in a spacesuit, fly to the wreck and repair the red pulsing light on the hull. Once repaired the ship is yours. This works the same for every ship size." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the map include all DLCs?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The map covers the full X4: Foundations universe with Split Vendetta, Cradle of Humanity, Tides of Avarice and Kingdom End installed, current for the v9.0 sector layout." }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://veanturverse.com/" },
+    { "@type": "ListItem", "position": 2, "name": "X4: Foundations", "item": "https://veanturverse.com/x4-foundations.html" },
+    { "@type": "ListItem", "position": 3, "name": "Universe Map", "item": "https://veanturverse.com/guides/x4-universe-map.html" }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="../fonts.css" />
+<!-- Tailwind: prebuilt, purged & minified, replaces the runtime CDN -->
+<link rel="stylesheet" href="../assets/tailwind.css" />
+<style>
+  html, body { background:#0a0e1a; color:#f1f5f9; }
+  body { font-family:'Rajdhani',ui-sans-serif,system-ui; -webkit-font-smoothing:antialiased; }
+  .glow-cyan { text-shadow:0 0 16px rgba(34,211,238,0.45), 0 0 48px rgba(6,182,212,0.22); }
+  .corner { position:absolute; width:11px; height:11px; border:1px solid currentColor; opacity:0.55; }
+  .corner.tl { top:7px; left:7px; border-right:0; border-bottom:0; }
+  .corner.tr { top:7px; right:7px; border-left:0; border-bottom:0; }
+  .corner.bl { bottom:7px; left:7px; border-right:0; border-top:0; }
+  .corner.br { bottom:7px; right:7px; border-left:0; border-top:0; }
+  .mobile-menu { transform:translateX(100%); transition:transform .25s ease; }
+  .mobile-menu.open { transform:translateX(0); }
+  :focus-visible { outline:2px solid #22d3ee; outline-offset:3px; border-radius:4px; }
+
+  /* ===== MAP SHELL ===== */
+  #mapRoot { position:relative; width:100%; height:calc(100vh - 64px); min-height:560px; background:
+      radial-gradient(ellipse 70% 60% at 50% 18%, rgba(6,182,212,0.06), transparent 70%),
+      radial-gradient(ellipse 50% 50% at 82% 88%, rgba(249,115,22,0.05), transparent 70%),
+      #07090f;
+    overflow:hidden; touch-action:none; user-select:none; }
+  #mapRoot::before { content:""; position:absolute; inset:0; pointer-events:none; z-index:1;
+    background-image:linear-gradient(rgba(34,211,238,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(34,211,238,0.035) 1px,transparent 1px);
+    background-size:64px 64px; -webkit-mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,#000 55%,transparent 92%); mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,#000 55%,transparent 92%); }
+  #mapSvg { position:absolute; inset:0; width:100%; height:100%; cursor:grab; display:block; }
+  #mapSvg:active { cursor:grabbing; }
+
+  /* shared element rules */
+  .hex, .edge, .node { vector-effect:non-scaling-stroke; }
+  .hit { fill:transparent; stroke:none; pointer-events:all; }
+  .label { fill:#cbd6e6; font-family:'Rajdhani',sans-serif; font-weight:600; font-size:calc(12px / var(--z,1)); text-anchor:middle;
+    paint-order:stroke; stroke:#05070d; stroke-width:calc(3px / var(--z,1)); opacity:0; transition:opacity .15s ease; pointer-events:none; letter-spacing:.01em; }
+  .label.show { opacity:.92; }
+  .label.match { fill:#cfeeff; opacity:1 !important; }
+  .label.dim { opacity:.12 !important; }
+  .clabel { fill:var(--fc); font-family:'Orbitron',sans-serif; font-weight:700; text-transform:uppercase;
+    font-size:calc(var(--clpx,9px) / var(--z,1)); letter-spacing:calc(0.4px / var(--z,1)); text-anchor:middle;
+    paint-order:stroke; stroke:#05070d; stroke-width:calc(2.6px / var(--z,1)); opacity:0; transition:opacity .15s ease; pointer-events:none; }
+  .clabel.show { opacity:.95; }
+  .clabel.dim { opacity:.1 !important; }
+
+  .edge { fill:none; stroke-linecap:round; }
+  .edge-gate { stroke:rgba(190,212,240,0.22); stroke-width:1; }
+  .edge-hw   { stroke:rgba(96,178,255,0.72); stroke-width:2.1; stroke-dasharray:7 5;
+    filter:drop-shadow(0 0 2.5px rgba(96,170,255,0.5)); animation:shflow 1.5s linear infinite; }
+  @keyframes shflow { to { stroke-dashoffset:-24; } }
+  .edge.hot  { stroke:rgba(34,211,238,0.95); stroke-width:2; stroke-dasharray:none; }
+  .edge.dim  { opacity:.18; }
+
+  /* in-sector local highways (hand-traced, drawn as solid double lanes) */
+  .hw-local { fill:none; stroke:rgba(150,195,235,0.7); stroke-width:1.1; vector-effect:non-scaling-stroke; pointer-events:none; }
+
+  .hex { fill:color-mix(in srgb, var(--fc) 13%, transparent); stroke:var(--fc); stroke-width:1.3; transition:fill .15s, opacity .15s, stroke-width .1s; }
+  .hex.hover { fill:color-mix(in srgb, var(--fc) 26%, transparent); stroke-width:2.2; }
+  .hex.sel   { fill:color-mix(in srgb, var(--fc) 34%, transparent); stroke-width:2.6; filter:drop-shadow(0 0 6px var(--fc)); }
+  .hex.adj   { stroke-width:2; }
+  .hex.dim   { opacity:.16; }
+
+  .node { fill:var(--fc); stroke:#05070d; stroke-width:1.2; opacity:.96; transition:opacity .15s, r .12s; display:none; }
+  .node.hover { stroke:#fff; }
+  .node.sel   { stroke:#fff; stroke-width:1.6; }
+  .node.dim   { opacity:.14; }
+
+  /* jump-gate dots, sit at each connection's real in-sector gate position */
+  .gate-dot { fill:rgba(198,216,240,0.55); pointer-events:none; }
+  .gate-dot.hw { fill:rgba(110,185,255,0.75); }
+  #mapRoot[data-style="territory"] .gate-dot { fill:rgba(198,216,240,0.26); }
+
+  /* station icons near a hex's lower edge (fixed NPC anchor stations) */
+  .stn-one, .stn-all { display:none; }
+  #mapRoot.st1 .stn-one { display:block; }
+  #mapRoot.st2 .stn-all { display:block; }
+  .stn-ico { pointer-events:none; }
+  .stn-ico text { font-style:italic; font-weight:700; }
+
+  /* ---- style: hex (default) ---- */
+  #mapRoot[data-style="hex"] .node { display:none; }
+
+  /* ---- style: constellation ---- */
+  #mapRoot[data-style="constellation"] .hex { fill:none; stroke-opacity:.18; stroke-width:1; }
+  #mapRoot[data-style="constellation"] .hex.sel, #mapRoot[data-style="constellation"] .hex.hover, #mapRoot[data-style="constellation"] .hex.adj { stroke-opacity:.5; }
+  #mapRoot[data-style="constellation"] .node { display:block; filter:drop-shadow(0 0 5px var(--fc)); }
+  #mapRoot[data-style="constellation"] .node.sel { filter:drop-shadow(0 0 10px var(--fc)); }
+  #mapRoot[data-style="constellation"] .edge-gate { stroke:rgba(190,212,240,0.34); }
+  #mapRoot[data-style="constellation"] .edge-hw { stroke:rgba(110,185,255,0.7); }
+
+  /* ---- style: territory ---- */
+  #mapRoot[data-style="territory"] .hex { fill:color-mix(in srgb, var(--fc) 42%, transparent); stroke-width:1.4; stroke-opacity:.9; }
+  #mapRoot[data-style="territory"] .hex.hover { fill:color-mix(in srgb, var(--fc) 58%, transparent); }
+  #mapRoot[data-style="territory"] .hex.sel { fill:color-mix(in srgb, var(--fc) 66%, transparent); }
+  #mapRoot[data-style="territory"] .node { display:none; }
+  #mapRoot[data-style="territory"] .edge-gate { stroke:rgba(190,212,240,0.10); }
+  #mapRoot[data-style="territory"] .edge-hw { stroke:rgba(90,170,255,0.30); }
+
+  /* ===== OVERLAY UI ===== */
+  .ov { position:absolute; z-index:5; }
+  .panelbox { background:rgba(13,18,28,0.82); backdrop-filter:blur(10px); border:1px solid #233048; }
+
+  /* title + style switch (top-left) */
+  #mapTopL { top:14px; left:14px; right:14px; display:flex; gap:12px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; pointer-events:none; }
+  #mapTopL > * { pointer-events:auto; }
+  .mt-title { padding:10px 14px; }
+  .mt-kicker { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#22d3ee; }
+  .mt-h { font-family:'Orbitron',sans-serif; font-weight:800; letter-spacing:.04em; font-size:15px; margin-top:3px; }
+  .seg { display:flex; padding:4px; gap:3px; }
+  .seg button { font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:#8aa0bd; padding:7px 12px; border:1px solid transparent; transition:.15s; white-space:nowrap; }
+  .seg button:hover { color:#cfe2f5; }
+  .seg button.active { color:#06121a; background:#22d3ee; border-color:#22d3ee; font-weight:700; }
+
+  /* search (within top-left row, right side) */
+  .searchwrap { position:relative; }
+  /* station finder (filter sectors by fixed-station type) */
+  #stationFinder { position:absolute; top:62px; left:0; width:236px; max-width:60vw; padding:9px 10px; }
+  .sf-h { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:#8298b2; margin-bottom:7px; display:flex; justify-content:space-between; align-items:center; }
+  .sf-clear { color:#22d3ee; cursor:pointer; font-size:8.5px; letter-spacing:.1em; visibility:hidden; }
+  .sf-clear.show { visibility:visible; }
+  .sf-chips { display:grid; grid-template-columns:1fr 1fr; gap:3px; }
+  .sf-chip { display:flex; align-items:center; gap:5px; padding:4px 5px; border:1px solid transparent; cursor:pointer; transition:.12s; text-align:left; background:none; }
+  .sf-chip:hover { background:rgba(255,255,255,0.05); }
+  .sf-chip.active { border-color:var(--sc); background:color-mix(in srgb, var(--sc) 16%, transparent); }
+  .sf-ico { flex:none; width:16px; height:14px; color:var(--sc); display:flex; align-items:center; justify-content:center; }
+  .sf-ico svg { width:16px; height:14px; overflow:visible; }
+  .sf-lbl { font-size:10px; color:#c3d0e2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .sf-chip.active .sf-lbl { color:#eaf2fb; }
+  .sf-count { font-size:10px; color:#7fd4dd; margin-top:7px; min-height:13px; font-family:'JetBrains Mono',monospace; letter-spacing:.04em; }
+
+  /* station-match highlight on the map */
+  .hex.stn-match { opacity:1 !important; stroke-width:2.2; filter:drop-shadow(0 0 5px var(--fc)); animation:stnpulse 1.5s ease-in-out infinite; }
+  @keyframes stnpulse { 0%,100% { filter:drop-shadow(0 0 3px var(--fc)); } 50% { filter:drop-shadow(0 0 8px var(--fc)); } }
+  #mapSearch { width:230px; max-width:46vw; background:rgba(13,18,28,0.82); backdrop-filter:blur(10px); border:1px solid #233048; color:#e7eef7; padding:10px 12px 10px 34px; font-family:'Rajdhani',sans-serif; font-size:15px; }
+  #mapSearch::placeholder { color:#5d6f88; }
+  .searchwrap svg { position:absolute; left:11px; top:50%; transform:translateY(-50%); width:15px; height:15px; color:#5d6f88; pointer-events:none; }
+  #searchResults { position:absolute; top:calc(100% + 6px); left:0; right:0; list-style:none; margin:0; padding:5px; display:none; max-height:280px; overflow:auto; }
+  #searchResults.show { display:block; }
+  #searchResults li { display:flex; align-items:center; gap:8px; padding:8px 10px; font-size:14px; color:#cdd9e8; cursor:pointer; }
+  #searchResults li:hover { background:rgba(34,211,238,0.10); color:#fff; }
+  #searchResults li.no { color:#5d6f88; cursor:default; }
+
+  /* legend (bottom-left) */
+  #mapLegend { bottom:14px; left:14px; width:236px; max-width:84vw; padding:5px; display:grid; grid-template-columns:1fr 1fr; gap:0 4px; max-height:48vh; overflow-y:auto; overflow-x:hidden; }
+  .leg { display:flex; align-items:center; gap:6px; padding:3px 6px; border:1px solid transparent; cursor:pointer; transition:.13s; min-width:0; }
+  .leg:hover { background:rgba(255,255,255,0.04); }
+  .leg.active { border-color:#22d3ee; background:rgba(34,211,238,0.08); }
+  .leg-dot { width:8px; height:8px; flex:none; box-shadow:0 0 5px currentColor; }
+  .leg-name { flex:1 1 auto; min-width:0; font-size:11px; color:#c3d0e2; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+  /* zoom controls (bottom-right) */
+  #mapZoom { bottom:14px; right:14px; display:flex; flex-direction:column; gap:5px; }
+  #mapZoom button { width:34px; height:34px; display:grid; place-items:center; color:#bcd0e6; transition:.13s; }
+  #mapZoom button:hover { color:#22d3ee; border-color:#2c4763; }
+  #mapZoom svg { width:15px; height:15px; }
+
+  /* hint (bottom-center) */
+  #mapHint { bottom:18px; left:50%; transform:translateX(-50%); font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:#5a6c84; pointer-events:none; text-align:center; }
+
+  /* detail panel (right) */
+  #mapPanel { position:absolute; z-index:6; top:14px; right:14px; width:266px; max-width:calc(100vw - 28px); max-height:calc(100% - 152px); overflow-y:auto; overflow-x:hidden; padding:13px 14px; transform:translateX(118%); transition:transform .3s cubic-bezier(.2,.8,.2,1); }
+  #mapPanel.open { transform:translateX(0); }
+  .pnl-close { position:absolute; top:8px; right:9px; width:24px; height:24px; color:#7e90a8; font-size:17px; line-height:1; }
+  .pnl-close:hover { color:#22d3ee; }
+  .pnl-kicker { font-family:'JetBrains Mono',monospace; font-size:8.5px; letter-spacing:.2em; text-transform:uppercase; color:#22d3ee; }
+  .pnl-name { font-family:'Orbitron',sans-serif; font-weight:700; font-size:15px; line-height:1.15; margin:3px 0 7px; padding-right:20px; }
+  .pnl-fac { display:flex; align-items:center; gap:6px; font-size:11.5px; color:#cdd9e8; font-weight:600; }
+  .pnl-dot { width:9px; height:9px; flex:none; box-shadow:0 0 5px currentColor; }
+  .pnl-dot.sm { width:7px; height:7px; }
+  .pnl-meta { margin:10px 0; display:grid; gap:1px; background:#1d2940; border:1px solid #1d2940; }
+  .pnl-meta > div { display:flex; justify-content:space-between; gap:8px; padding:5px 8px; background:#0e1421; font-size:11px; color:#cdd9e8; }
+  .pnl-lbl { color:#7689a1; font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.08em; text-transform:uppercase; }
+  .pnl-pending { color:#f59e0b; font-family:'JetBrains Mono',monospace; font-size:9.5px; }
+  .pnl-conn-h { font-family:'JetBrains Mono',monospace; font-size:8.5px; letter-spacing:.2em; text-transform:uppercase; color:#7689a1; margin:3px 0 5px; }
+  .pnl-conn { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; }
+  .pnl-conn li { display:flex; align-items:center; gap:7px; padding:4px 7px; cursor:pointer; border:1px solid transparent; transition:.12s; }
+  .pnl-conn li:hover { background:rgba(34,211,238,0.08); border-color:#22364d; }
+  .pnl-cn { flex:1; font-size:11.5px; color:#cdd9e8; }
+  .pnl-hw, .pnl-gt { font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:.08em; padding:1.5px 4px; }
+  .pnl-hw { color:#7fc0ff; border:1px solid rgba(110,185,255,0.4); }
+  .pnl-gt { color:#7689a1; border:1px solid #2a3a52; }
+  .pnl-h2 { color:#52647e; font-weight:400; letter-spacing:.1em; }
+  .pnl-stations { display:flex; flex-direction:column; gap:2px; margin-bottom:12px; }
+  .pnl-stn { display:flex; align-items:center; gap:7px; padding:2px 0; }
+  .pnl-stn-ico { flex:none; width:18px; height:16px; display:flex; align-items:center; justify-content:center; }
+  .pnl-stn-ico svg { width:18px; height:16px; overflow:visible; }
+  .pnl-stn-n { font-size:11.5px; color:#cdd9e8; }
+  .pnl-stn-s { font-size:9px; color:#7689a1; margin-left:auto; text-align:right; }
+
+  /* ===== FREE-SHIPS LENS ===== */
+  .lens-toggle { display:inline-flex; align-items:center; gap:7px; padding:9px 13px; font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:#9bb0cc; white-space:nowrap; transition:.14s; }
+  .lens-toggle:hover { color:#ffd9b0; border-color:#5a3a1e; }
+  .lens-toggle .lens-ic { color:#f97316; font-size:12px; line-height:1; }
+  .lens-toggle.active { color:#0a0e1a; background:#f97316; border-color:#f97316; font-weight:700; }
+  .lens-toggle.active .lens-ic { color:#0a0e1a; }
+
+  /* pins overlay */
+  #mapPins { position:absolute; inset:0; z-index:4; pointer-events:none; }
+  #mapRoot:not(.lens-on) #mapPins { display:none; }
+  .pin { position:absolute; transform:translate(-50%,-50%); pointer-events:auto; display:flex; align-items:center; justify-content:center;
+    width:24px; height:24px; border-radius:50%; border:1.5px solid #f97316; background:rgba(249,115,22,0.18); color:#ffd0a8;
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12px; cursor:pointer; will-change:left,top;
+    box-shadow:0 0 0 4px rgba(249,115,22,0.12), 0 0 13px rgba(249,115,22,0.55); transition:background .12s, box-shadow .12s; }
+  .pin:hover { background:rgba(249,115,22,0.4); box-shadow:0 0 0 5px rgba(249,115,22,0.18), 0 0 18px rgba(249,115,22,0.8); }
+  .pin.prize { border-width:2px; box-shadow:0 0 0 5px rgba(249,115,22,0.2), 0 0 20px rgba(249,115,22,0.85); }
+  .pin.danger { border-color:#ef4444; background:rgba(239,68,68,0.2); color:#ffb4b4; box-shadow:0 0 0 4px rgba(239,68,68,0.12), 0 0 13px rgba(239,68,68,0.6); }
+  .pin.danger:hover { background:rgba(239,68,68,0.42); }
+  .pin-cls { line-height:1; pointer-events:none; }
+  .pin-count { position:absolute; top:-6px; right:-6px; min-width:15px; height:15px; padding:0 3px; border-radius:8px; background:#f97316; color:#0a0e1a; font-size:9px; display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 1.5px #0a0e1a; }
+  .pin-warn { position:absolute; bottom:-9px; left:50%; transform:translateX(-50%); font-size:10px; line-height:1; filter:drop-shadow(0 0 2px #000); }
+
+  /* class badges (index + dossier) */
+  .si-cls { flex:none; width:19px; height:19px; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:10.5px; color:#06121a; }
+  .cls-S { background:#22d3ee; } .cls-M { background:#f97316; } .cls-L { background:#fbbf24; }
+  .si-cls.danger { background:#ef4444; color:#fff; }
+
+  /* ships index (compact, docked right under the search) */
+  /* ships index + timeline index stacked in one right-side column (one lens shows both) */
+  #shipsPanels { top:72px; right:14px; width:218px; max-width:80vw; z-index:5; display:none; flex-direction:column; gap:8px; max-height:calc(100% - 96px); overflow-y:auto; overflow-x:hidden; }
+  #mapRoot.lens-on #shipsPanels { display:flex; }
+  #shipsIndex, #timelineIndex { position:static; width:100%; max-width:none; padding:5px; display:flex; flex-direction:column; gap:1px; flex:none; }
+  .si-h { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#f9a23f; padding:4px 6px 5px; }
+  .si-row { display:flex; align-items:center; gap:8px; padding:4px 6px; cursor:pointer; border:1px solid transparent; transition:.12s; text-align:left; }
+  .si-row:hover { background:rgba(249,115,22,0.10); border-color:rgba(249,115,22,0.32); }
+  .si-info { display:flex; flex-direction:column; min-width:0; flex:1; }
+  .si-name { font-size:12px; color:#e7eef7; font-weight:600; line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .si-sec { font-size:10px; color:#7e90a8; line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .si-warn { flex:none; color:#ef4444; font-size:11px; }
+
+  /* timeline ships: violet accent (mirrors derelict pins/index/panel) */
+  .lens-toggle[hidden] { display:none; }
+  #mapPinsTl { position:absolute; inset:0; z-index:4; pointer-events:none; }
+  #mapRoot:not(.lens-tl-on) #mapPinsTl { display:none; }
+  .pin.tl { border-color:#a855f7; background:rgba(168,85,247,0.18); color:#e9d5ff; box-shadow:0 0 0 4px rgba(168,85,247,0.12), 0 0 13px rgba(168,85,247,0.55); }
+  .pin.tl:hover { background:rgba(168,85,247,0.42); box-shadow:0 0 0 5px rgba(168,85,247,0.18), 0 0 18px rgba(168,85,247,0.85); }
+  .pin.tl .pin-count { background:#a855f7; }
+  .lens-toggle.tl .lens-ic { color:#a855f7; }
+  .lens-toggle.tl:hover { color:#e9d5ff; border-color:#5b3a7a; }
+  .lens-toggle.tl.active { background:#a855f7; border-color:#a855f7; color:#0a0e1a; }
+  .lens-toggle.tl.active .lens-ic { color:#0a0e1a; }
+  #timelineIndex .si-h { color:#c4a5f7; }
+  #timelineIndex .si-row:hover { background:rgba(168,85,247,0.12); border-color:rgba(168,85,247,0.34); }
+  .pnl-tl-h { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:#c4a5f7; margin:6px 0 6px; }
+  .pnl-tl-note { font-size:11.5px; color:#c3b2e0; background:rgba(168,85,247,0.08); border-left:2px solid #a855f7; padding:6px 9px; margin-bottom:10px; line-height:1.4; }
+  .pnl-tl { display:flex; flex-direction:column; gap:9px; margin-bottom:16px; }
+  .pnl-tl-ship { display:flex; gap:11px; border:1px solid #3a2a52; background:#120e1d; padding:9px; }
+  .pnl-tl-ship.danger { border-color:rgba(239,68,68,0.4); }
+  .pnl-tl-ship.found { opacity:0.7; }
+  .pnl-tl-num { flex:none; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:9.5px; letter-spacing:.06em; color:#0a0e1a; background:#a855f7; padding:2px 5px; }
+  .pnl-tl-top { display:flex; align-items:center; gap:8px; }
+  .pnl-tl-name { font-family:'Orbitron',sans-serif; font-weight:700; font-size:13.5px; line-height:1.1; }
+  .pnl-tl-role { font-size:12px; color:#a79bc0; margin:4px 0 5px; }
+  .pnl-tl-role .mono { font-family:'JetBrains Mono',monospace; color:#c4a5f7; font-size:11px; }
+  .pnl-tl-req { font-size:12px; color:#d6c7ee; margin-bottom:4px; }
+  .pnl-tl-req b { color:#c4a5f7; }
+  .pnl-tl-find { font-size:12.5px; color:#b3a6cc; line-height:1.4; margin-top:3px; }
+
+  /* found checklist (local) */
+  .si-h { display:flex; align-items:center; justify-content:space-between; gap:6px; }
+  .si-prog { color:#34d399; }
+  .si-reset { flex:none; font-family:'JetBrains Mono',monospace; font-size:8.5px; letter-spacing:.1em; text-transform:uppercase; color:#9bb0cc; background:transparent; border:1px solid #2a3a52; padding:2px 6px; cursor:pointer; }
+  .si-reset:hover { color:#e7eef7; border-color:#3a5067; }
+  .si-check { flex:none; width:18px; height:18px; display:flex; align-items:center; justify-content:center; border:1px solid #34516a; border-radius:3px; color:#34d399; font-size:11px; }
+  .si-check:hover { border-color:#34d399; }
+  .si-row.found { opacity:0.6; }
+  .si-row.found .si-name { text-decoration:line-through; color:#9fb0c6; }
+  .si-row.found .si-check { background:#34d399; border-color:#34d399; color:#06121a; }
+  .pin.found { opacity:0.4; }
+  .pnl-ship.found { opacity:0.7; }
+  .pnl-found { margin-top:8px; font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:#9bb0cc; background:transparent; border:1px solid #2a3a52; padding:5px 10px; cursor:pointer; transition:.13s; }
+  .pnl-found:hover { color:#e7eef7; border-color:#3a5067; }
+  .pnl-found.on { color:#06121a; background:#34d399; border-color:#34d399; font-weight:700; }
+
+  /* Kha'ak-safe overlay */
+  .lens-toggle.kk .lens-ic { color:#34d399; }
+  .lens-toggle.kk:hover { color:#bff0d8; border-color:#1f5a44; }
+  .lens-toggle.kk.active { background:#34d399; border-color:#34d399; color:#06210f; }
+  .lens-toggle.kk.active .lens-ic { color:#06210f; }
+  .hex.khaak-safe { stroke:#34d399 !important; stroke-width:1.8; fill:color-mix(in srgb,#34d399 20%,transparent) !important; opacity:1 !important; }
+  .hex.khaak-near { stroke:#f59e0b !important; }
+  .hex.khaak-hive { stroke:#ef4444 !important; stroke-width:2.4; fill:color-mix(in srgb,#ef4444 30%,transparent) !important; opacity:1 !important; filter:drop-shadow(0 0 6px #ef4444); }
+  #khaakNote { display:none; top:62px; left:50%; transform:translateX(-50%); max-width:560px; padding:9px 14px; font-size:12px; line-height:1.45; color:#cdd9e8; z-index:6; }
+  #mapRoot.khaak-on #khaakNote { display:block; }
+  #khaakNote b { color:#34d399; }
+  #khaakNote .kn-n { color:#34d399; font-weight:700; }
+  #khaakNote .kn-legend { display:inline-flex; align-items:center; margin-left:6px; font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.05em; color:#9fb0c6; }
+  #khaakNote .kn-k { width:10px; height:10px; display:inline-block; border:1px solid; margin:0 4px 0 9px; }
+  #khaakNote .kn-safe { background:rgba(52,211,153,0.3); border-color:#34d399; }
+  #khaakNote .kn-near { background:transparent; border-color:#f59e0b; }
+  #khaakNote .kn-hive { background:rgba(239,68,68,0.3); border-color:#ef4444; }
+
+  /* Terraforming overlay */
+  .lens-toggle.tf .lens-ic { color:#38bdf8; }
+  .lens-toggle.tf:hover { color:#bae6fd; border-color:#1e4a6a; }
+  .lens-toggle.tf.active { background:#38bdf8; border-color:#38bdf8; color:#04212e; }
+  .lens-toggle.tf.active .lens-ic { color:#04212e; }
+  .hex.terra { stroke:#38bdf8 !important; stroke-width:2; fill:color-mix(in srgb,#38bdf8 22%,transparent) !important; opacity:1 !important; filter:drop-shadow(0 0 5px rgba(56,189,248,0.6)); }
+  #terraformNote { display:none; top:62px; left:50%; transform:translateX(-50%); max-width:560px; padding:9px 14px; font-size:12px; line-height:1.45; color:#cdd9e8; z-index:6; }
+  #mapRoot.terra-on #terraformNote { display:block; }
+  #terraformNote b { color:#38bdf8; }
+  #terraformNote .tn-n { color:#38bdf8; font-weight:700; }
+
+  /* hover info tooltip + map options */
+  #hoverInfo { position:absolute; display:none; z-index:8; pointer-events:none; min-width:172px; max-width:300px; padding:11px 13px; background:rgba(11,17,29,0.96); border:1px solid #2a3a52; box-shadow:0 4px 18px rgba(0,0,0,0.5); }
+  #hoverInfo.show { display:block; }
+  .hi-name { font-family:'Orbitron',sans-serif; font-weight:700; font-size:15px; color:#e7eef7; line-height:1.15; margin-bottom:5px; }
+  .hi-fac { display:flex; align-items:center; font-size:13px; color:#9fb0c6; }
+  .hi-dot { width:10px; height:10px; border-radius:50%; margin-right:7px; flex:none; }
+  .hi-tag { font-size:12.5px; margin-top:5px; }
+  .hi-tag.der { color:#f9a23f; }
+  .hi-tag.tl { color:#c4a5f7; }
+  .hi-ok { color:#34d399; } .hi-warn { color:#f59e0b; } .hi-x { color:#ef4444; } .hi-tf { color:#38bdf8; }
+  #mapOptions { display:flex; flex-direction:column; gap:5px; padding:9px 11px; }
+  .opt { display:flex; align-items:center; gap:7px; font-size:11px; color:#9fb0c6; cursor:pointer; font-family:'JetBrains Mono',monospace; letter-spacing:.03em; text-transform:uppercase; }
+  .opt input { accent-color:#22d3ee; cursor:pointer; width:13px; height:13px; flex:none; }
+  .opt:hover { color:#e7eef7; }
+
+  /* sector resources + golden partial stars */
+  .pnl-rsc-h { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:#7fd4dd; margin:2px 0 7px; }
+  .pnl-rsc { display:flex; flex-direction:column; gap:4px; margin-bottom:16px; }
+  .rsc-row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .rsc-name { font-size:12.5px; color:#cdd9e8; }
+  .rsc-none { font-size:12px; color:#7e90a8; margin-bottom:16px; }
+  .stars { position:relative; display:inline-block; white-space:nowrap; font-style:normal; font-size:13px; line-height:1; letter-spacing:1.5px; }
+  .stars::before { content:'★★★★★'; color:#39414f; }
+  .stars i { position:absolute; left:0; top:0; width:var(--p,0%); overflow:hidden; }
+  .stars i::before { content:'★★★★★'; color:#f5c518; }
+  .hi-rsc { margin-top:7px; padding-top:6px; border-top:1px solid #233048; display:flex; flex-direction:column; gap:3px; }
+  .hi-rsc .rsc-row { gap:10px; }
+  .hi-rsc .rsc-name { font-size:12px; color:#9fb0c6; }
+  .hi-rsc .stars { font-size:12.5px; letter-spacing:1px; }
+  /* stations in hover popup */
+  .hi-stn { margin-top:7px; padding-top:6px; border-top:1px solid #233048; display:flex; flex-wrap:wrap; gap:5px; align-items:center; }
+  .hi-stn-h { width:100%; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#7fd4dd; margin-bottom:3px; }
+  .stn-chip { display:inline-flex; align-items:center; gap:5px; font-size:12px; line-height:1.3; padding:2px 8px 2px 5px; border:1px solid currentColor; border-radius:2px; background:rgba(255,255,255,0.03); white-space:nowrap; }
+  .stn-ic { width:17px; height:15px; flex:none; display:block; }
+
+  /* dossier in detail panel */
+  .pnl-ships-h { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:#f9a23f; margin:6px 0 8px; }
+  .pnl-ships { display:flex; flex-direction:column; gap:9px; margin-bottom:16px; }
+  .pnl-ship { display:flex; gap:11px; border:1px solid #2a3a52; background:#0e1421; padding:9px; }
+  .pnl-ship.danger { border-color:rgba(239,68,68,0.4); }
+  .pnl-ship-img { width:80px; height:54px; object-fit:cover; flex:none; border:1px solid #243046; background:#070a12; cursor:zoom-in; transition:border-color .13s; }
+  .pnl-ship-img:hover { border-color:#f9a23f; }
+  .pnl-tl-ship .pnl-ship-img:hover { border-color:#c4a5f7; }
+
+  /* ship-image lightbox (full-size view on thumbnail click) */
+  #imgLightbox { position:fixed; inset:0; z-index:60; display:none; align-items:center; justify-content:center;
+    padding:28px; background:rgba(5,7,13,0.9); backdrop-filter:blur(4px); cursor:zoom-out; }
+  #imgLightbox.open { display:flex; }
+  #imgLightbox img { max-width:96vw; max-height:92vh; object-fit:contain; border:1px solid #243046;
+    background:#070a12; box-shadow:0 10px 44px rgba(0,0,0,0.6); }
+  #imgLightbox .lb-close { position:absolute; top:16px; right:18px; width:38px; height:38px; display:grid; place-items:center;
+    color:#cbd6e6; font-size:26px; line-height:1; background:rgba(13,18,28,0.8); border:1px solid #233048; cursor:pointer; }
+  #imgLightbox .lb-close:hover { color:#22d3ee; border-color:#2c4763; }
+  #imgLightbox .lb-cap { position:absolute; bottom:20px; left:50%; transform:translateX(-50%); max-width:90vw; text-align:center;
+    font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.06em; color:#9fb0c6; }
+  .pnl-ship-body { min-width:0; flex:1; }
+  .pnl-ship-top { display:flex; align-items:center; gap:8px; margin-bottom:4px; }
+  .pnl-ship-name { font-family:'Orbitron',sans-serif; font-weight:700; font-size:13.5px; line-height:1.1; }
+  .pnl-ship-role { font-size:12px; color:#9fb0c6; margin-bottom:5px; }
+  .pnl-ship-role .mono { font-family:'JetBrains Mono',monospace; color:#7fd4dd; font-size:11px; }
+  .pnl-ship-find { font-size:12.5px; color:#aab8cc; line-height:1.4; }
+  .pnl-ship-warn { font-size:11.5px; color:#fca5a5; margin-top:6px; border-left:2px solid #ef4444; padding-left:8px; line-height:1.4; }
+  .pnl-ship-link { display:inline-block; margin-top:8px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:#f9a23f; }
+  .pnl-ship-link:hover { text-decoration:underline; }
+
+  /* route-picking banner + cursor */
+  #routeHint { top:62px; left:50%; transform:translateX(-50%); padding:8px 15px; background:rgba(249,115,22,0.16); backdrop-filter:blur(6px); border:1px solid #f97316; color:#ffd9b0; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; display:none; z-index:7; pointer-events:none; }
+  #mapRoot.route-picking #routeHint { display:block; }
+  #mapRoot.route-picking #mapSvg { cursor:crosshair; }
+
+  /* route highlight on map */
+  .edge.route { stroke:#3fe0ff !important; stroke-width:2.6; stroke-dasharray:7 5; opacity:1 !important; animation:routeflow .9s linear infinite; }
+  @keyframes routeflow { to { stroke-dashoffset:-24; } }
+  .hex.route { opacity:1 !important; stroke-width:2; }
+  .hex.route-start, .node.route-start { stroke:#34d399 !important; stroke-width:2.6; filter:drop-shadow(0 0 6px #34d399); opacity:1 !important; }
+  .hex.route-start { fill:color-mix(in srgb,#34d399 24%,transparent) !important; }
+  .hex.route-dest, .node.route-dest { stroke:#f97316 !important; stroke-width:2.6; filter:drop-shadow(0 0 7px #f97316); opacity:1 !important; }
+  .hex.route-dest { fill:color-mix(in srgb,#f97316 26%,transparent) !important; }
+  .hex.route-danger { stroke:#ef4444 !important; }
+
+  /* route box in panel */
+  .pnl-route { border:1px solid #2a3a52; background:#0e1421; padding:10px; margin-bottom:16px; }
+  .pnl-route.picking { border-color:rgba(249,115,22,0.5); }
+  .pnl-route-h { display:flex; justify-content:space-between; align-items:center; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#7fd4dd; margin-bottom:6px; }
+  .pnl-route-jumps { color:#22d3ee; }
+  .pnl-route-sub { font-size:12px; color:#9fb0c6; margin-bottom:8px; line-height:1.4; }
+  .pnl-route-sub .rx, .rx { color:#fca5a5; }
+  .pnl-route-steps { list-style:none; margin:0 0 9px; padding:0; display:flex; flex-direction:column; gap:1px; max-height:230px; overflow-y:auto; }
+  .rstep { display:flex; align-items:center; gap:9px; padding:5px 7px; cursor:pointer; border:1px solid transparent; transition:.12s; }
+  .rstep:hover { background:rgba(34,211,238,0.08); border-color:#22364d; }
+  .rstep-n { flex:none; width:18px; height:18px; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:10px; color:#7fd4dd; border:1px solid #2a3a52; }
+  .rstep.start .rstep-n { color:#34d399; border-color:#34d399; }
+  .rstep.dest .rstep-n { color:#f97316; border-color:#f97316; }
+  .rstep.xen .rstep-n { color:#ef4444; border-color:#ef4444; }
+  .rstep-name { flex:1; font-size:13px; color:#cdd9e8; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .rstep.start .rstep-name { color:#bff0d8; font-weight:600; }
+  .rstep.dest .rstep-name { color:#ffd0a8; font-weight:600; }
+  .rstep-x { flex:none; font-family:'JetBrains Mono',monospace; font-size:9px; color:#ef4444; border:1px solid rgba(239,68,68,0.4); padding:2px 4px; }
+  .pnl-route-actions { display:flex; gap:6px; }
+  .pnl-route-btn { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#0a0e1a; background:#22d3ee; border:1px solid #22d3ee; padding:7px 11px; cursor:pointer; transition:.13s; }
+  .pnl-route-btn:hover { filter:brightness(1.1); }
+  .pnl-route-btn.full { width:100%; }
+  .pnl-route-btn.ghost { color:#9bb0cc; background:transparent; border-color:#2a3a52; }
+  .pnl-route-btn.ghost:hover { color:#e7eef7; border-color:#3a5067; filter:none; }
+
+  /* route planner (toolbar popover) */
+  #routePlanner { display:none; overflow:visible; flex-direction:column; gap:8px; padding:11px; margin-top:8px; width:240px; }
+  #routePlanner.show { display:flex; }
+  .rp-row { position:relative; display:flex; align-items:center; gap:7px; }
+  .rp-lbl { flex:none; width:30px; font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.1em; text-transform:uppercase; }
+  .rp-lbl.rp-from { color:#34d399; }
+  .rp-lbl.rp-to { color:#f97316; }
+  .rp-row input { flex:1; min-width:0; background:#0b111d; border:1px solid #2a3a52; color:#e7eef7; font-size:12.5px; padding:6px 8px; outline:none; }
+  .rp-row input:focus { border-color:#22d3ee; }
+  .rp-results { display:none; position:absolute; top:100%; left:37px; right:0; z-index:9; margin-top:3px; list-style:none; padding:4px; background:#0b1119; border:1px solid #2a3a52; max-height:210px; overflow-y:auto; }
+  .rp-results.show { display:block; }
+  .rp-results li { display:flex; align-items:center; gap:7px; padding:5px 7px; font-size:12.5px; color:#cdd9e8; cursor:pointer; }
+  .rp-results li:hover { background:rgba(34,211,238,0.1); }
+  .rp-results li.no { color:#7a8aa0; cursor:default; }
+  .rp-actions { display:flex; gap:6px; }
+  .rp-btn { flex:1; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:#0a0e1a; background:#22d3ee; border:1px solid #22d3ee; padding:7px; cursor:pointer; transition:.13s; }
+  .rp-btn:hover { filter:brightness(1.1); }
+  .rp-btn.ghost { color:#9bb0cc; background:transparent; border-color:#2a3a52; }
+  .rp-btn.ghost:hover { color:#e7eef7; filter:none; }
+  .rp-msg { font-size:11px; min-height:13px; line-height:1.3; color:#9fb0c6; }
+  .rp-msg.warn { color:#fca5a5; }
+  .rp-msg.ok { color:#7fe0c4; }
+
+  @media (max-width:720px){
+    #mapPanel { width:auto; left:14px; right:14px; top:auto; bottom:14px; max-height:54%; }
+    #mapPanel.open { transform:translateY(0); }
+    #mapPanel:not(.open){ transform:translateY(120%); }
+    #mapLegend { max-height:30vh; max-width:62vw; }
+    #mapHint { display:none; }
+    #shipsPanels { top:auto; bottom:14px; right:14px; left:auto; width:210px; max-height:54vh; }
+  }
+</style>
+</head>
+
+<body class="min-h-screen relative">
+
+<!-- NAV -->
+<header class="sticky top-0 z-40 backdrop-blur-md bg-base/75 border-b border-subtle/80">
+  <div class="max-w-[1280px] mx-auto px-5 md:px-8 h-16 flex items-center justify-between">
+    <a href="../index.html" class="font-display font-black tracking-[0.22em] text-base md:text-lg select-none">
+      <span class="text-ink glow-cyan">VEANTUR</span><span class="text-cyan">VERSE</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-7 text-[13px] uppercase tracking-[0.18em] text-mute font-medium">
+      <a href="../index.html" class="hover:text-cyan transition-colors">Home</a>
+      <a href="../index.html#new" class="hover:text-cyan transition-colors">What's New</a>
+      <a href="../x4-foundations.html" class="text-cyan2 hover:text-cyan transition-colors">X4 Foundations</a>
+      <a href="../star-citizen.html" class="hover:text-cyan transition-colors">Star Citizen</a>
+      <a href="../Referral.html" class="hover:text-cyan transition-colors">Recruit Bonus</a>
+      <a href="https://www.youtube.com/@Veantur" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 hover:text-cyan transition-colors">YouTube
+        <svg class="w-3 h-3 opacity-70" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5 3h8v8" stroke="currentColor" stroke-width="1.5"/><path d="M13 3 4 12" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+    </nav>
+    <button id="navOpen" class="md:hidden p-2 -mr-2 text-ink" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div id="mobileMenu" class="mobile-menu md:hidden fixed inset-y-0 right-0 w-72 bg-base/95 backdrop-blur-xl border-l border-subtle z-50 shadow-2xl">
+    <div class="flex items-center justify-between px-5 h-16 border-b border-subtle">
+      <span class="font-display font-black tracking-[0.22em] text-sm">VEANTUR<span class="text-cyan">VERSE</span></span>
+      <button id="navClose" class="p-2 text-ink" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <nav class="px-5 py-6 flex flex-col gap-5 text-base uppercase tracking-[0.16em] text-mute">
+      <a href="../index.html" class="hover:text-cyan transition-colors">Home</a>
+      <a href="../index.html#new" class="hover:text-cyan transition-colors">What's New</a>
+      <a href="../x4-foundations.html" class="text-cyan2 hover:text-cyan transition-colors">X4 Foundations</a>
+      <a href="../star-citizen.html" class="hover:text-cyan transition-colors">Star Citizen</a>
+      <a href="../Referral.html" class="hover:text-cyan transition-colors">Recruit Bonus</a>
+      <a href="https://www.youtube.com/@Veantur" target="_blank" rel="noopener noreferrer" class="hover:text-cyan transition-colors">YouTube</a>
+    </nav>
+  </div>
+  <div id="navBackdrop" class="mobile-menu fixed inset-0 bg-black/60 z-40 hidden md:hidden"></div>
+</header>
+
+<main>
+
+<!-- MAP -->
+<section id="mapRoot" aria-label="Interactive X4 universe map">
+  <svg id="mapSvg" xmlns="http://www.w3.org/2000/svg">
+    <g id="gViewport">
+      <g id="gEdges"></g>
+      <g id="gHex"></g>
+      <g id="gNode"></g>
+      <g id="gLabel"></g>
+    </g>
+  </svg>
+
+  <!-- derelict free-ship pins (HTML overlay, lens-gated) -->
+  <div id="mapPins"></div>
+  <!-- timeline-reward ship pins (lens-gated) -->
+  <div id="mapPinsTl"></div>
+
+  <!-- route-picking banner -->
+  <div id="routeHint" class="ov">&#9678; Click your start system &middot; Esc to cancel</div>
+  <!-- Kha'ak-safe overlay explainer (shown when overlay active) -->
+  <div id="khaakNote" class="ov panelbox"></div>
+  <!-- Terraforming overlay explainer (shown when overlay active) -->
+  <div id="terraformNote" class="ov panelbox"></div>
+  <!-- hover info tooltip (desktop pointer; follows cursor) -->
+  <div id="hoverInfo"></div>
+
+  <!-- ship-image lightbox (click a dossier thumbnail to see the full picture) -->
+  <div id="imgLightbox" role="dialog" aria-modal="true" aria-label="Ship image">
+    <button class="lb-close" aria-label="Close image">&times;</button>
+    <img alt="" />
+    <div class="lb-cap"></div>
+  </div>
+
+  <!-- top-left: title + style switch + search -->
+  <div id="mapTopL" class="ov">
+    <div class="flex items-center gap-3 flex-wrap">
+      <div class="mt-title panelbox relative">
+        <span class="corner tl text-cyan"></span><span class="corner br text-cyan"></span>
+        <div class="mt-kicker">X4 Foundations · v9.0</div>
+        <div class="mt-h">UNIVERSE MAP</div>
+      </div>
+      <button id="lensShips" class="lens-toggle panelbox" aria-pressed="false" title="Toggle derelict &amp; timeline-reward ship locations">
+        <span class="lens-ic">◆</span> Derelict Ships
+      </button>
+      <button id="lensTimeline" class="lens-toggle tl panelbox" aria-pressed="false" title="Toggle Timeline-reward ship locations" hidden>
+        <span class="lens-ic">✦</span> Timeline Ships
+      </button>
+      <button id="lensKhaak" class="lens-toggle kk panelbox" aria-pressed="false" title="Highlight sectors safe from Kha'ak raids (more than 3 jumps from a hive)" hidden>
+        <span class="lens-ic">⬡</span> Kha'ak-safe
+      </button>
+      <button id="lensTerraform" class="lens-toggle tf panelbox" aria-pressed="false" title="Highlight sectors with a terraformable planet (Cradle of Humanity)" hidden>
+        <span class="lens-ic">⊕</span> Terraforming
+      </button>
+      <button id="routePlanBtn" class="lens-toggle panelbox" aria-pressed="false" title="Plan a gate route between any two sectors">
+        <span class="lens-ic">▸</span> Plan a Route
+      </button>
+    </div>
+    <div id="routePlanner" class="panelbox">
+      <div class="rp-row">
+        <span class="rp-lbl rp-from">From</span>
+        <input id="rpFrom" type="text" placeholder="Start sector…" autocomplete="off" spellcheck="false" />
+        <ul id="rpFromResults" class="rp-results"></ul>
+      </div>
+      <div class="rp-row">
+        <span class="rp-lbl rp-to">To</span>
+        <input id="rpTo" type="text" placeholder="Destination sector…" autocomplete="off" spellcheck="false" />
+        <ul id="rpToResults" class="rp-results"></ul>
+      </div>
+      <div class="rp-actions">
+        <button id="rpGo" class="rp-btn">Plot route</button>
+        <button id="rpClear" class="rp-btn ghost">Clear</button>
+      </div>
+      <div id="rpMsg" class="rp-msg"></div>
+    </div>
+    <div class="searchwrap">
+      <svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="m11 11 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input id="mapSearch" type="text" placeholder="Search sector…" autocomplete="off" spellcheck="false" />
+      <ul id="searchResults" class="panelbox"></ul>
+    </div>
+    <div id="stationFinder" class="panelbox"></div>
+    <div id="mapOptions" class="panelbox">
+      <label class="opt"><input type="checkbox" id="optCenter"><span>Recenter on click</span></label>
+    </div>
+  </div>
+
+  <!-- ships index + timeline ships index (both shown when the Ships lens is on, stacked) -->
+  <div id="shipsPanels" class="ov">
+    <div id="shipsIndex" class="panelbox"></div>
+    <div id="timelineIndex" class="panelbox"></div>
+  </div>
+
+  <!-- legend -->
+  <div id="mapLegend" class="ov panelbox"></div>
+
+  <!-- zoom -->
+  <div id="mapZoom" class="ov">
+    <button id="zoomIn" class="panelbox" aria-label="Zoom in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></button>
+    <button id="zoomOut" class="panelbox" aria-label="Zoom out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14" stroke-linecap="round"/></svg></button>
+    <button id="zoomFit" class="panelbox" aria-label="Reset view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9V5a1 1 0 0 1 1-1h4M20 9V5a1 1 0 0 0-1-1h-4M4 15v4a1 1 0 0 0 1 1h4M20 15v4a1 1 0 0 1-1 1h-4" stroke-linecap="round"/></svg></button>
+  </div>
+
+  <!-- hint -->
+  <div id="mapHint" class="ov">Drag to pan · Scroll to zoom · Click a sector</div>
+
+  <!-- detail panel -->
+  <aside id="mapPanel" class="panelbox" aria-live="polite"></aside>
+</section>
+
+<!-- CONTEXT STRIP -->
+<section class="relative border-t border-subtle/60 py-12 md:py-16">
+  <div class="max-w-[1000px] mx-auto px-5 md:px-8">
+    <div class="font-mono text-[11px] text-cyan tracking-[0.24em] uppercase mb-3 flex items-center gap-2">
+      <span class="w-6 h-px bg-cyan inline-block"></span> About this map
+    </div>
+    <h1 class="font-display font-bold text-2xl md:text-3xl tracking-tight mb-4">The interactive X4 Foundations galaxy map, every sector, all DLCs</h1>
+    <p class="text-mute text-lg leading-relaxed max-w-2xl">
+      Every sector in the current X4: Foundations galaxy with all expansions installed, Split Vendetta, Cradle of
+      Humanity, Tides of Avarice and Kingdom End. Hexes are coloured by their controlling faction; lines are gate
+      links, dashed lines are super-highways. Click any sector for its faction and connections.
+    </p>
+    <p class="text-mute text-lg leading-relaxed max-w-2xl mt-4">
+      Use it as a complete X4 sector map and galaxy map: search any system by name, then pan and zoom from the
+      whole galaxy down to a single sector, every base-game and DLC region on one interactive map.
+    </p>
+    <p class="text-mute text-lg leading-relaxed max-w-2xl mt-4">
+      Flip on the <span class="text-orange font-semibold">Derelict Ships</span> lens (top toolbar) to mark every sector
+      with a claimable derelict, pin colour shows the ship's class (S/M/L), and each marker opens its claim notes,
+      coordinates and a link straight to the full <a href="x4-derelict-ships.html" class="text-cyan hover:underline">derelict ships guide</a>.
+      Click any sector and hit <span class="text-cyan font-semibold">Plan a route here</span>, or use <span class="text-cyan font-semibold">Plan a Route</span> in the top toolbar to pick a start and destination by name, for a gate-by-gate path between any two systems. Xenon sectors on the way are flagged red.
+    </p>
+    <div class="mt-7 inline-flex items-center gap-2 px-3 py-2 border border-orange/40 bg-orange/[0.06] text-orange font-mono text-[11px] tracking-[0.16em] uppercase">
+      <span class="w-1.5 h-1.5 rounded-full bg-orange"></span>
+      Resource data (ore · silicon · ice · gases · scrap) lands after the X4 9.0 update
+    </div>
+    <div class="mt-8">
+      <a href="../x4-foundations.html" class="inline-flex items-center gap-2 text-cyan font-mono text-xs uppercase tracking-[0.2em] hover:underline">
+        <svg class="w-3.5 h-3.5 rotate-180" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Back to X4 Foundations
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CRAWLABLE FREE / DERELICT SHIPS (static HTML for SEO + as a content moat) -->
+<section id="free-ships" class="relative border-t border-subtle/60 py-12 md:py-16">
+  <div class="max-w-[1000px] mx-auto px-5 md:px-8">
+    <div class="font-mono text-[11px] text-orange tracking-[0.24em] uppercase mb-3 flex items-center gap-2">
+      <span class="w-6 h-px bg-orange inline-block"></span> Free ships
+    </div>
+    <h2 class="font-display font-bold text-2xl md:text-3xl tracking-tight mb-4">Free, derelict &amp; abandoned ships in X4: Foundations</h2>
+    <p class="text-mute text-lg leading-relaxed max-w-2xl mb-8">
+      Scattered across the X4 universe are ownerless wrecks, derelict and abandoned ships you can claim for free,
+      from cheap scouts to a full destroyer. Below are the six confirmed locations; turn on the
+      <span class="text-orange font-semibold">Derelict Ships</span> lens above to see them on the map, then plan a jump-gate
+      route from your start system.
+    </p>
+
+    <ol class="grid sm:grid-cols-2 gap-4 list-none p-0 m-0">
+      <li class="border border-line bg-surface p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="font-mono text-xs font-bold text-base bg-cyan2 px-2 py-1">S</span>
+          <h3 class="font-display font-bold text-lg leading-tight">Elite Vanguard</h3>
+        </div>
+        <p class="font-mono text-[11px] tracking-[0.14em] uppercase text-cyan mb-2">Interceptor · Grand Exchange I (Teladi)</p>
+        <p class="text-mute text-[14px] leading-relaxed mb-3">422k from the Grand Exchange IV accelerator and 362k from the Grand Exchange III accelerator, sitting 24k above the ecliptic in the asteroid field. Claim it in a spacesuit.</p>
+        <div class="flex gap-4 font-mono text-[10px] uppercase tracking-[0.16em]">
+          <a href="?ship=elite-vanguard" class="text-cyan2 hover:underline">Show on map</a>
+          <a href="x4-derelict-ships.html#ship-elite-vanguard" class="text-mute2 hover:text-cyan">Full guide</a>
+        </div>
+      </li>
+      <li class="border border-line bg-surface p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="font-mono text-xs font-bold text-base bg-cyan2 px-2 py-1">S</span>
+          <h3 class="font-display font-bold text-lg leading-tight">Perseus Vanguard</h3>
+        </div>
+        <p class="font-mono text-[11px] tracking-[0.14em] uppercase text-cyan mb-2">Fighter · Silent Witness XII</p>
+        <p class="text-mute text-[14px] leading-relaxed mb-3">234k from the Silent Witness XI accelerator and 183k from the SCA Pirate Base, right on the ecliptic. A free spacesuit claim.</p>
+        <div class="flex gap-4 font-mono text-[10px] uppercase tracking-[0.16em]">
+          <a href="?ship=perseus-vanguard" class="text-cyan2 hover:underline">Show on map</a>
+          <a href="x4-derelict-ships.html#ship-perseus-vanguard" class="text-mute2 hover:text-cyan">Full guide</a>
+        </div>
+      </li>
+      <li class="border border-line bg-surface p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="font-mono text-xs font-bold text-base bg-cyan2 px-2 py-1">S</span>
+          <h3 class="font-display font-bold text-lg leading-tight">Courier Vanguard</h3>
+        </div>
+        <p class="font-mono text-[11px] tracking-[0.14em] uppercase text-cyan mb-2">Courier · Nopileos' Fortune II</p>
+        <p class="text-mute text-[14px] leading-relaxed mb-3">Roughly 300k from the highway exit in the same direction. Small hull, claim it in a spacesuit.</p>
+        <div class="flex gap-4 font-mono text-[10px] uppercase tracking-[0.16em]">
+          <a href="?ship=courier-vanguard" class="text-cyan2 hover:underline">Show on map</a>
+          <a href="x4-derelict-ships.html#ship-courier-vanguard" class="text-mute2 hover:text-cyan">Full guide</a>
+        </div>
+      </li>
+      <li class="border border-line bg-surface p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="font-mono text-xs font-bold text-base bg-orange px-2 py-1">M</span>
+          <h3 class="font-display font-bold text-lg leading-tight">Osprey Vanguard</h3>
+        </div>
+        <p class="font-mono text-[11px] tracking-[0.14em] uppercase text-orange mb-2">Frigate · Company Regard</p>
+        <p class="text-mute text-[14px] leading-relaxed mb-3">76.5k to the Scale Plate Green gate and 171.8k to the highway. A free medium frigate, spacesuit claim.</p>
+        <div class="flex gap-4 font-mono text-[10px] uppercase tracking-[0.16em]">
+          <a href="?ship=osprey-vanguard" class="text-cyan2 hover:underline">Show on map</a>
+          <a href="x4-derelict-ships.html#ship-osprey-vanguard" class="text-mute2 hover:text-cyan">Full guide</a>
+        </div>
+      </li>
+      <li class="border border-line bg-surface p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="font-mono text-xs font-bold text-base bg-orange px-2 py-1">M</span>
+          <h3 class="font-display font-bold text-lg leading-tight">Drill Vanguard</h3>
+        </div>
+        <p class="font-mono text-[11px] tracking-[0.14em] uppercase text-orange mb-2">Miner · The Void</p>
+        <p class="text-mute text-[14px] leading-relaxed mb-3">392k from the Antigone Memorial gate. A free M-class miner, spacesuit claim.</p>
+        <div class="flex gap-4 font-mono text-[10px] uppercase tracking-[0.16em]">
+          <a href="?ship=drill-vanguard" class="text-cyan2 hover:underline">Show on map</a>
+          <a href="x4-derelict-ships.html#ship-drill-vanguard" class="text-mute2 hover:text-cyan">Full guide</a>
+        </div>
+      </li>
+      <li class="border border-line bg-surface p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="font-mono text-xs font-bold text-base bg-[#fbbf24] px-2 py-1">L</span>
+          <h3 class="font-display font-bold text-lg leading-tight">Odysseus Vanguard</h3>
+          <span class="font-mono text-[10px] text-[#fbbf24] tracking-[0.14em] uppercase ml-auto">★ Best</span>
+        </div>
+        <p class="font-mono text-[11px] tracking-[0.14em] uppercase text-[#fbbf24] mb-2">Destroyer · Faulty Logic VII</p>
+        <p class="text-mute text-[14px] leading-relaxed mb-3">313k to the Faulty Logic I superhighway and 266k to the Atiya's Misfortune III gate. The best free ship in the game, since 4.0 HF2 it spawns fully equipped, so just spacewalk to the bridge and claim it.</p>
+        <div class="flex gap-4 font-mono text-[10px] uppercase tracking-[0.16em]">
+          <a href="?ship=odysseus-vanguard" class="text-cyan2 hover:underline">Show on map</a>
+          <a href="x4-derelict-ships.html#ship-odysseus-vanguard" class="text-mute2 hover:text-cyan">Full guide</a>
+        </div>
+      </li>
+    </ol>
+
+    <p class="text-mute2 text-sm mt-6">
+      Want screenshots and the exact in-sector approach for each wreck? See the full
+      <a href="x4-derelict-ships.html" class="text-cyan hover:underline">X4 derelict &amp; abandoned ships guide</a>.
+    </p>
+  </div>
+</section>
+
+<!-- CRAWLABLE TIMELINE-REWARD SHIPS (static HTML for SEO; mirrors the violet map overlay) -->
+<section id="timeline-ships" class="relative border-t border-subtle/60 py-12 md:py-16">
+  <div class="max-w-[1000px] mx-auto px-5 md:px-8">
+    <div class="font-mono text-[11px] tracking-[0.24em] uppercase mb-3 flex items-center gap-2" style="color:#c4a5f7">
+      <span class="w-6 h-px inline-block" style="background:#a855f7"></span> Timeline ships
+    </div>
+    <h2 class="font-display font-bold text-2xl md:text-3xl tracking-tight mb-4">Timeline-reward ships in X4: Foundations</h2>
+    <p class="text-mute text-lg leading-relaxed max-w-2xl mb-8">
+      Beyond the derelicts, the <b class="text-ink">Timelines</b> DLC hands out nine unique
+      <span style="color:#c4a5f7" class="font-semibold">reward ships</span> (TL1 to TL9) scattered across the galaxy. Each one only
+      appears in your save after you complete the matching Timelines scenario. Flip on the
+      <span class="text-orange font-semibold">Derelict Ships</span> lens above. The same toggle now also shows these in
+      <span style="color:#c4a5f7" class="font-semibold">violet</span>, ready to plan a route to.
+    </p>
+
+    <ol class="grid sm:grid-cols-2 gap-4 list-none p-0 m-0">
+      <li class="border border-line bg-surface p-5">
+        <div class="flex items-center gap-2 mb-2 flex-wrap">
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#a855f7;color:#0a0e1a">TL1</span>
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#f97316;color:#06121a">M</span>
+          <h3 class="font-display font-bold text-lg leading-tight">Xenon B</h3>
+        </div>
+        <p class="font-mono text-[11px] tracking-[0.14em] uppercase mb-2" style="color:#c4a5f7">Xenon Frigate · Antigone Memorial</p>
+        <p class="text-mute text-[14px] leading-relaxed mb-3">A Xenon frigate in the upper-left of the sector, around 267k out. Spacesuit claim.</p>
+        <div class="flex gap-4 font-mono text-[10px] uppercase tracking-[0.16em]">
+          <a href="?tlship=xenon-b" class="hover:underline" style="color:#c4a5f7">Show on map</a>
+          <a href="x4-derelict-ships.html#ship-xenon-b" class="text-mute2 hover:text-cyan">Full guide</a>
+        </div>
+      </li>
+      <li class="border border-line bg-surface p-5">
+        <div class="flex items-center gap-2 mb-2 flex-wrap">
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#a855f7;color:#0a0e1a">TL2</span>
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#22d3ee;color:#06121a">S</span>
+          <h3 class="font-display font-bold text-lg leading-tight">Cutlass</h3>
+        </div>
+        <p class="font-mono text-[11px] tracking-[0.14em] uppercase mb-2" style="color:#c4a5f7">Fighter · Heretic's End</p>
+        <p class="text-mute text-[14px] leading-relaxed mb-3">Far south-west of Heretic's End, just off the resource bubble (around 404k to the Morningstar gate).</p>
+        <div class="flex gap-4 font-mono text-[10px] uppercase tracking-[0.16em]">
+          <a href="?tlship=cutlass" class="hover:underline" style="color:#c4a5f7">Show on map</a>
+          <a href="x4-derelict-ships.html#ship-cutlass" class="text-mute2 hover:text-cyan">Full guide</a>
+        </div>
+      </li>
+      <li class="border border-line bg-surface p-5">
+        <div class="flex items-center gap-2 mb-2 flex-wrap">
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#a855f7;color:#0a0e1a">TL3</span>
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#22d3ee;color:#06121a">S</span>
+          <h3 class="font-display font-bold text-lg leading-tight">Elite Sport</h3>
+        </div>
+        <p class="font-mono text-[11px] tracking-[0.14em] uppercase mb-2" style="color:#c4a5f7">Racer · CEO's Doubt</p>
+        <p class="text-mute text-[14px] leading-relaxed mb-3">A racing ship in the upper-right arm of CEO's Doubt.</p>
+        <div class="flex gap-4 font-mono text-[10px] uppercase tracking-[0.16em]">
+          <a href="?tlship=elite-sport" class="hover:underline" style="color:#c4a5f7">Show on map</a>
+          <a href="x4-derelict-ships.html#ship-elite-sport" class="text-mute2 hover:text-cyan">Full guide</a>
+        </div>
+      </li>
+      <li class="border border-line bg-surface p-5">
+        <div class="flex items-center gap-2 mb-2 flex-wrap">
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#a855f7;color:#0a0e1a">TL4</span>
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#f97316;color:#06121a">M</span>
+          <h3 class="font-display font-bold text-lg leading-tight">Xenon F</h3>
+        </div>
+        <p class="font-mono text-[11px] tracking-[0.14em] uppercase mb-2" style="color:#c4a5f7">Xenon Fighter · Nopileos' Fortune II</p>
+        <p class="text-mute text-[14px] leading-relaxed mb-3">A Xenon fighter in the lower-left cluster, around 332k toward the Nopileos' Fortune VI gate. Spacesuit claim.</p>
+        <div class="flex gap-4 font-mono text-[10px] uppercase tracking-[0.16em]">
+          <a href="?tlship=xenon-f" class="hover:underline" style="color:#c4a5f7">Show on map</a>
+          <a href="x4-derelict-ships.html#ship-xenon-f" class="text-mute2 hover:text-cyan">Full guide</a>
+        </div>
+      </li>
+      <li class="border border-line bg-surface p-5">
+        <div class="flex items-center gap-2 mb-2 flex-wrap">
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#a855f7;color:#0a0e1a">TL5</span>
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#fbbf24;color:#06121a">L</span>
+          <h3 class="font-display font-bold text-lg leading-tight">Xenon H</h3>
+        </div>
+        <p class="font-mono text-[11px] tracking-[0.14em] uppercase mb-2" style="color:#c4a5f7">Xenon Destroyer · Tharka's Cascade XV</p>
+        <p class="text-mute text-[14px] leading-relaxed mb-3">A Xenon capital ship left of centre in Tharka's Cascade XV (around 180k to the Hatikvah's Choice gate). Heavily defended, with difficulty tied to nearby patrols. Spacesuit claim.</p>
+        <div class="flex gap-4 font-mono text-[10px] uppercase tracking-[0.16em]">
+          <a href="?tlship=xenon-h" class="hover:underline" style="color:#c4a5f7">Show on map</a>
+          <a href="x4-derelict-ships.html#ship-xenon-h" class="text-mute2 hover:text-cyan">Full guide</a>
+        </div>
+      </li>
+      <li class="border border-line bg-surface p-5">
+        <div class="flex items-center gap-2 mb-2 flex-wrap">
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#a855f7;color:#0a0e1a">TL6</span>
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#22d3ee;color:#06121a">S</span>
+          <h3 class="font-display font-bold text-lg leading-tight">Kestrel Sport</h3>
+        </div>
+        <p class="font-mono text-[11px] tracking-[0.14em] uppercase mb-2" style="color:#c4a5f7">Racer · Freedom's Reach</p>
+        <p class="text-mute text-[14px] leading-relaxed mb-3">A fast racing ship left of centre in Freedom's Reach (around 472k toward Cardinal's Redress). Watch for hidden Xenon asteroids nearby.</p>
+        <div class="flex gap-4 font-mono text-[10px] uppercase tracking-[0.16em]">
+          <a href="?tlship=kestrel-sport" class="hover:underline" style="color:#c4a5f7">Show on map</a>
+          <a href="x4-derelict-ships.html#ship-kestrel-sport" class="text-mute2 hover:text-cyan">Full guide</a>
+        </div>
+      </li>
+      <li class="border border-line bg-surface p-5">
+        <div class="flex items-center gap-2 mb-2 flex-wrap">
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#a855f7;color:#0a0e1a">TL7</span>
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#f97316;color:#06121a">M</span>
+          <h3 class="font-display font-bold text-lg leading-tight">Odachi</h3>
+        </div>
+        <p class="font-mono text-[11px] tracking-[0.14em] uppercase mb-2" style="color:#c4a5f7">Gunboat · Getsu Fune</p>
+        <p class="text-mute text-[14px] leading-relaxed mb-3">A gunboat in the upper-centre of Getsu Fune (around 232k to the Savage Spur II gate). Random encounters can spawn nearby.</p>
+        <div class="flex gap-4 font-mono text-[10px] uppercase tracking-[0.16em]">
+          <a href="?tlship=odachi" class="hover:underline" style="color:#c4a5f7">Show on map</a>
+          <a href="x4-derelict-ships.html#ship-odachi" class="text-mute2 hover:text-cyan">Full guide</a>
+        </div>
+      </li>
+      <li class="border border-line bg-surface p-5">
+        <div class="flex items-center gap-2 mb-2 flex-wrap">
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#a855f7;color:#0a0e1a">TL8</span>
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#fbbf24;color:#06121a">L</span>
+          <h3 class="font-display font-bold text-lg leading-tight">Sapporo</h3>
+        </div>
+        <p class="font-mono text-[11px] tracking-[0.14em] uppercase mb-2" style="color:#c4a5f7">Destroyer · Mists of Artemis</p>
+        <p class="text-mute text-[14px] leading-relaxed mb-3">A destroyer near the centre of Mists of Artemis, close to a Kha'ak hive, so the approach is tricky.</p>
+        <div class="flex gap-4 font-mono text-[10px] uppercase tracking-[0.16em]">
+          <a href="?tlship=sapporo" class="hover:underline" style="color:#c4a5f7">Show on map</a>
+          <a href="x4-derelict-ships.html#ship-sapporo" class="text-mute2 hover:text-cyan">Full guide</a>
+        </div>
+      </li>
+      <li class="border border-line bg-surface p-5">
+        <div class="flex items-center gap-2 mb-2 flex-wrap">
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#a855f7;color:#0a0e1a">TL9</span>
+          <span class="font-mono text-xs font-bold px-2 py-1" style="background:#22d3ee;color:#06121a">S</span>
+          <h3 class="font-display font-bold text-lg leading-tight">Theseus Sport</h3>
+        </div>
+        <p class="font-mono text-[11px] tracking-[0.14em] uppercase mb-2" style="color:#c4a5f7">Racer · Moo-Kye's Revenge</p>
+        <p class="text-mute text-[14px] leading-relaxed mb-3">A racing ship at the eastern end of Moo-Kye's Revenge (around 552k toward Cardinal's Domain). Watch for hidden Xenon asteroids.</p>
+        <div class="flex gap-4 font-mono text-[10px] uppercase tracking-[0.16em]">
+          <a href="?tlship=theseus-sport" class="hover:underline" style="color:#c4a5f7">Show on map</a>
+          <a href="x4-derelict-ships.html#ship-theseus-sport" class="text-mute2 hover:text-cyan">Full guide</a>
+        </div>
+      </li>
+    </ol>
+
+    <p class="text-mute2 text-sm mt-6">
+      Heads-up: Timeline ships only spawn once you've finished the matching Timelines mission. The in-sector positions are fixed.
+    </p>
+  </div>
+</section>
+
+<!-- FAQ (visible, mirrors the FAQPage schema) -->
+<section id="faq" class="relative border-t border-subtle/60 py-12 md:py-16">
+  <div class="max-w-[1000px] mx-auto px-5 md:px-8">
+    <div class="font-mono text-[11px] text-cyan tracking-[0.24em] uppercase mb-3 flex items-center gap-2">
+      <span class="w-6 h-px bg-cyan inline-block"></span> FAQ
+    </div>
+    <h2 class="font-display font-bold text-2xl md:text-3xl tracking-tight mb-7">X4 map &amp; free ships, quick answers</h2>
+    <div class="flex flex-col gap-5 max-w-2xl">
+      <div>
+        <h3 class="font-display font-bold text-lg mb-1.5">Where do I find free ships in X4: Foundations?</h3>
+        <p class="text-mute text-[15px] leading-relaxed">Free, derelict and abandoned ships are ownerless wrecks across the galaxy. Confirmed spots: Grand Exchange I, Silent Witness XII, Nopileos' Fortune II, Company Regard, The Void and Faulty Logic VII. Toggle the Free Ships lens on the map above to see every sector.</p>
+      </div>
+      <div>
+        <h3 class="font-display font-bold text-lg mb-1.5">What is the best free ship in X4?</h3>
+        <p class="text-mute text-[15px] leading-relaxed">The Odysseus Vanguard, an L-class destroyer in Faulty Logic VII. Since 4.0 HF2 it spawns fully equipped, so you can claim it by spacewalking to the bridge.</p>
+      </div>
+      <div>
+        <h3 class="font-display font-bold text-lg mb-1.5">How do I claim a derelict ship in X4?</h3>
+        <p class="text-mute text-[15px] leading-relaxed">Leave your ship in a spacesuit, fly to the wreck and repair the red pulsing light on the hull. Once repaired the ship is yours. This works the same for every ship size.</p>
+      </div>
+      <div>
+        <h3 class="font-display font-bold text-lg mb-1.5">Does this X4 map include all DLCs?</h3>
+        <p class="text-mute text-[15px] leading-relaxed">Yes, the full universe with Split Vendetta, Cradle of Humanity, Tides of Avarice and Kingdom End installed, current for the v9.0 sector layout. Resource data (ore, silicon, ice, gases, scrap) follows after the X4 9.0 update.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="relative py-14 border-t border-subtle/60">
+  <div class="max-w-[1280px] mx-auto px-5 md:px-8 flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
+    <div>
+      <div class="font-display font-black tracking-[0.22em] text-base mb-2"><span class="text-ink">VEANTUR</span><span class="text-cyan">VERSE</span></div>
+      <p class="text-mute2 text-xs font-mono tracking-wider">© 2026 Veantur · Star Citizen &amp; X4 guides</p>
+    </div>
+    <nav class="flex flex-wrap gap-3 text-xs text-mute2 font-mono uppercase tracking-[0.2em]">
+      <a href="../index.html" class="hover:text-cyan">Home</a><span>·</span>
+      <a href="../impressum.html" class="hover:text-cyan">Impressum</a><span>·</span>
+      <a href="../privacy.html" class="hover:text-cyan">Datenschutz</a><span>·</span>
+      <a href="../disclosure.html" class="hover:text-cyan">Disclosure</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  const menu=document.getElementById('mobileMenu'),backdrop=document.getElementById('navBackdrop');
+  function setMenu(o){menu.classList.toggle('open',o);backdrop.classList.toggle('hidden',!o);document.body.style.overflow=o?'hidden':'';}
+  document.getElementById('navOpen')?.addEventListener('click',()=>setMenu(true));
+  document.getElementById('navClose')?.addEventListener('click',()=>setMenu(false));
+  backdrop?.addEventListener('click',()=>setMenu(false));
+  menu?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+</script>
+<script src="../assets/x4/universe-data.js"></script>
+<script src="../assets/x4/derelicts.js"></script>
+<script src="../assets/x4/timeline-ships.js"></script>
+<script src="../assets/x4/khaak-hives.js"></script>
+<script src="../assets/x4/terraform-sectors.js"></script>
+<script src="../assets/x4/resources.js"></script>
+<script src="../assets/x4/stations.js"></script>
+<script src="../assets/x4/highways.js"></script>
+<script src="../assets/x4/map.js"></script>
+
+</body>
+</html>
