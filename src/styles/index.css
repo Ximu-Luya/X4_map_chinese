@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  font-family: Rajdhani, "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #0a0e1a;
+  color: #f1f5f9;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  border-radius: 4px;
+  outline: 2px solid #22d3ee;
+  outline-offset: 3px;
+}
