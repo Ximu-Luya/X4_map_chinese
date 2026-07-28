@@ -13,6 +13,7 @@ import '@fontsource/jetbrains-mono/latin-700.css'
 
 import { App } from './ui/App'
 import './styles/index.css'
+import './styles/map.css'
 
 const root = document.getElementById('root')
 
