@@ -15,7 +15,9 @@
     "typecheck": "tsc -b --pretty false",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "npm run build && playwright test",
+    "verify:origin": "node scripts/verify-origin.mjs",
+    "verify": "npm run verify:origin && npm run lint && npm run typecheck && npm test && npm run test:e2e"
   },
   "keywords": [
     "x4-foundations",

@@ -33,4 +33,10 @@ export default tseslint.config(
       'prefer-const': 'off',
     },
   },
+  {
+    files: ['scripts/**/*.mjs', '*.config.{js,ts}'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
 )

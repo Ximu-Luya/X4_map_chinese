@@ -105,7 +105,7 @@
   .seg button.active { color:#06121a; background:#22d3ee; border-color:#22d3ee; font-weight:700; }
 
   /* search (within top-left row, right side) */
-  .searchwrap { position:relative; }
+  .searchwrap { position:relative; z-index:12; }
   /* station finder (filter sectors by fixed-station type) */
   #stationFinder { position:absolute; top:62px; left:0; width:236px; max-width:60vw; padding:9px 10px; }
   .sf-h { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:#8298b2; margin-bottom:7px; display:flex; justify-content:space-between; align-items:center; }
@@ -127,7 +127,7 @@
   #mapSearch { width:230px; max-width:46vw; background:rgba(13,18,28,0.82); backdrop-filter:blur(10px); border:1px solid #233048; color:#e7eef7; padding:10px 12px 10px 34px; font-family:'Rajdhani',sans-serif; font-size:15px; }
   #mapSearch::placeholder { color:#5d6f88; }
   .searchwrap svg { position:absolute; left:11px; top:50%; transform:translateY(-50%); width:15px; height:15px; color:#5d6f88; pointer-events:none; }
-  #searchResults { position:absolute; top:calc(100% + 6px); left:0; right:0; list-style:none; margin:0; padding:5px; display:none; max-height:280px; overflow:auto; }
+  #searchResults { position:absolute; z-index:20; top:calc(100% + 6px); left:0; right:0; list-style:none; margin:0; padding:5px; display:none; max-height:280px; overflow:auto; }
   #searchResults.show { display:block; }
   #searchResults li { display:flex; align-items:center; gap:8px; padding:8px 10px; font-size:14px; color:#cdd9e8; cursor:pointer; }
   #searchResults li:hover { background:rgba(34,211,238,0.10); color:#fff; }
