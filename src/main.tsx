@@ -12,6 +12,7 @@ import '@fontsource/jetbrains-mono/latin-500.css'
 import '@fontsource/jetbrains-mono/latin-700.css'
 
 import { App } from './ui/App'
+import './i18n'
 import './styles/index.css'
 import './styles/map.css'
 

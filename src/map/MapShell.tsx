@@ -1,14 +1,17 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { createMap } from './createMap'
 
 export function MapShell() {
+  const { t } = useTranslation()
+
   useEffect(() => {
-    createMap()
-  }, [])
+    createMap({ t })
+  }, [t])
 
   return (
-    <section id="mapRoot" aria-label="Interactive X4 universe map">
+    <section id="mapRoot" aria-label={t('accessibility.interactive_map')}>
       <svg id="mapSvg" xmlns="http://www.w3.org/2000/svg">
         <g id="gViewport">
           <g id="gEdges" />
@@ -21,14 +24,14 @@ export function MapShell() {
       <div id="mapPins" />
       <div id="mapPinsTl" />
       <div id="routeHint" className="ov">
-        ◎ Click your start system · Esc to cancel
+        ◎ {t('map.route_pick_hint')}
       </div>
       <div id="khaakNote" className="ov panelbox" />
       <div id="terraformNote" className="ov panelbox" />
       <div id="hoverInfo" />
 
-      <div id="imgLightbox" role="dialog" aria-modal="true" aria-label="Ship image">
-        <button className="lb-close" aria-label="Close image">
+      <div id="imgLightbox" role="dialog" aria-modal="true" aria-label={t('accessibility.ship_image')}>
+        <button className="lb-close" aria-label={t('accessibility.close_image')}>
           ×
         </button>
         <img alt="" />
@@ -40,72 +43,72 @@ export function MapShell() {
           <div className="mt-title panelbox relative">
             <span className="corner tl text-cyan" />
             <span className="corner br text-cyan" />
-            <div className="mt-kicker">X4 Foundations · v9.0</div>
-            <div className="mt-h">UNIVERSE MAP</div>
+            <div className="mt-kicker">{t('map.kicker')}</div>
+            <div className="mt-h">{t('map.title')}</div>
           </div>
           <button
             id="lensShips"
             className="lens-toggle panelbox"
             aria-pressed="false"
-            title="Toggle derelict and timeline-reward ship locations"
+            title={t('map.toggle_derelicts_title')}
           >
-            <span className="lens-ic">◆</span> Derelict Ships
+            <span className="lens-ic">◆</span> {t('map.derelict_ships')}
           </button>
           <button
             id="lensTimeline"
             className="lens-toggle tl panelbox"
             aria-pressed="false"
-            title="Toggle Timeline-reward ship locations"
+            title={t('map.toggle_timeline_title')}
             hidden
           >
-            <span className="lens-ic">✦</span> Timeline Ships
+            <span className="lens-ic">✦</span> {t('map.timeline_ships')}
           </button>
           <button
             id="lensKhaak"
             className="lens-toggle kk panelbox"
             aria-pressed="false"
-            title="Highlight sectors safe from Kha'ak raids"
+            title={t('map.toggle_khaak_title')}
             hidden
           >
-            <span className="lens-ic">⬡</span> Kha&apos;ak-safe
+            <span className="lens-ic">⬡</span> {t('map.khaak_safe')}
           </button>
           <button
             id="lensTerraform"
             className="lens-toggle tf panelbox"
             aria-pressed="false"
-            title="Highlight sectors with a terraformable planet"
+            title={t('map.toggle_terraform_title')}
             hidden
           >
-            <span className="lens-ic">⊕</span> Terraforming
+            <span className="lens-ic">⊕</span> {t('map.terraforming')}
           </button>
           <button
             id="routePlanBtn"
             className="lens-toggle panelbox"
             aria-pressed="false"
-            title="Plan a gate route between any two sectors"
+            title={t('map.toggle_route_title')}
           >
-            <span className="lens-ic">▸</span> Plan a Route
+            <span className="lens-ic">▸</span> {t('map.plan_route')}
           </button>
         </div>
 
         <div id="routePlanner" className="panelbox">
           <div className="rp-row">
-            <span className="rp-lbl rp-from">From</span>
+            <span className="rp-lbl rp-from">{t('map.from')}</span>
             <input
               id="rpFrom"
               type="text"
-              placeholder="Start sector…"
+              placeholder={t('map.start_sector_placeholder')}
               autoComplete="off"
               spellCheck={false}
             />
             <ul id="rpFromResults" className="rp-results" />
           </div>
           <div className="rp-row">
-            <span className="rp-lbl rp-to">To</span>
+            <span className="rp-lbl rp-to">{t('map.to')}</span>
             <input
               id="rpTo"
               type="text"
-              placeholder="Destination sector…"
+              placeholder={t('map.destination_sector_placeholder')}
               autoComplete="off"
               spellCheck={false}
             />
@@ -113,10 +116,10 @@ export function MapShell() {
           </div>
           <div className="rp-actions">
             <button id="rpGo" className="rp-btn">
-              Plot route
+              {t('map.plot_route')}
             </button>
             <button id="rpClear" className="rp-btn ghost">
-              Clear
+              {t('map.clear')}
             </button>
           </div>
           <div id="rpMsg" className="rp-msg" />
@@ -135,7 +138,7 @@ export function MapShell() {
           <input
             id="mapSearch"
             type="text"
-            placeholder="Search sector…"
+            placeholder={t('map.search_sector_placeholder')}
             autoComplete="off"
             spellCheck={false}
           />
@@ -145,7 +148,7 @@ export function MapShell() {
         <div id="mapOptions" className="panelbox">
           <label className="opt">
             <input type="checkbox" id="optCenter" />
-            <span>Recenter on click</span>
+            <span>{t('map.recenter_on_click')}</span>
           </label>
         </div>
       </div>
@@ -157,17 +160,17 @@ export function MapShell() {
       <div id="mapLegend" className="ov panelbox" />
 
       <div id="mapZoom" className="ov">
-        <button id="zoomIn" className="panelbox" aria-label="Zoom in">
+        <button id="zoomIn" className="panelbox" aria-label={t('accessibility.zoom_in')}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M12 5v14M5 12h14" strokeLinecap="round" />
           </svg>
         </button>
-        <button id="zoomOut" className="panelbox" aria-label="Zoom out">
+        <button id="zoomOut" className="panelbox" aria-label={t('accessibility.zoom_out')}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M5 12h14" strokeLinecap="round" />
           </svg>
         </button>
-        <button id="zoomFit" className="panelbox" aria-label="Reset view">
+        <button id="zoomFit" className="panelbox" aria-label={t('accessibility.reset_view')}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path
               d="M4 9V5a1 1 0 0 1 1-1h4M20 9V5a1 1 0 0 0-1-1h-4M4 15v4a1 1 0 0 0 1 1h4M20 15v4a1 1 0 0 1-1 1h-4"
@@ -178,7 +181,7 @@ export function MapShell() {
       </div>
 
       <div id="mapHint" className="ov">
-        Drag to pan · Scroll to zoom · Click a sector
+        {t('map.drag_zoom_hint')}
       </div>
       <aside id="mapPanel" className="panelbox" aria-live="polite" />
     </section>

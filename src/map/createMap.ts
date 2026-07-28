@@ -15,7 +15,10 @@ import {
 /* Veanturverse, X4 Universe Map engine
    Renders window.X4_UNIVERSE into an interactive pan/zoom SVG.
    Three visual styles: hex (default), constellation, territory. */
-export function createMap() {
+export function createMap(options = {}) {
+  const tr = (key, fallback, values = {}) =>
+    options.t ? options.t(key, { defaultValue: fallback, ...values }) : fallback;
+  const sectorLabel = name => tr(`sectors.${name}`, name);
   const U = universeData;
   if (!U) { console.error('X4_UNIVERSE data missing'); return; }
   const SVGNS = 'http://www.w3.org/2000/svg';
@@ -27,6 +30,8 @@ export function createMap() {
   const K = 0.01; // universe units -> local units
   const sectors = U.sectors.map(s => ({
     ...s,
+    key: s.name,
+    name: sectorLabel(s.name),
     lx: (s.x - minx) * K,
     ly: (s.y - miny) * K,
     lr: s.r * K,
@@ -41,7 +46,11 @@ export function createMap() {
     neighbours[e.b].push({ id: e.a, type: e.type });
   });
 
-  const fac = U.factions;
+  const fac = Object.fromEntries(Object.entries(U.factions).map(([code, value]) => [code, {
+    ...value,
+    name: tr(`factions.${code}.name`, value.name),
+    short: tr(`factions.${code}.short`, value.short),
+  }]));
   const facColor = code => (fac[code] || fac.UNO).color;
 
   // ---- DOM refs ----
@@ -149,7 +158,7 @@ export function createMap() {
     gView.insertBefore(gHw, gNode); // above hex fills, below nodes/labels
     const lanePath = pts => 'M' + pts.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L');
     Object.keys(HWY).forEach(nm => {
-      const sid = sectors.findIndex(s => s.name === nm);
+      const sid = sectors.findIndex(s => s.key === nm);
       if (sid < 0) return;
       const c = HWY[nm] || [];
       if (c.length < 2) return;
@@ -168,7 +177,12 @@ export function createMap() {
   }
 
   // station markers, fixed NPC anchor stations, X4-style icon badges (extracted/redrawn from the game map)
-  const STN_TYPES = stationTypes;
+  const stationKeys = { SY: 'shipyard', WH: 'wharf', EQ: 'equipment_dock', TR: 'trading_station', HQ: 'faction_hq', PB: 'pirate_base' };
+  const STN_TYPES = Object.fromEntries(Object.entries(stationTypes).map(([code, value]) => [code, {
+    ...value,
+    name: tr(`station_types.${stationKeys[code]}.name`, value.name),
+    sub: tr(`station_types.${stationKeys[code]}.description`, value.sub),
+  }]));
   const STN_DATA = stationSectors;
   const STN_PRIO = { SY: 1, WH: 2, HQ: 2, EQ: 3, TR: 4, PB: 4 }; // which icon represents a sector at medium zoom
   const STN_BADGE = '<polygon points="5,1 11,1 14.5,7 11,13 5,13 1.5,7" fill="#0a0e1a" stroke="currentColor" stroke-width="0.9"/>';
@@ -194,10 +208,10 @@ export function createMap() {
   gView.appendChild(gStations);
   const STN_POS = stationPositions;
   sectors.forEach((s) => {
-    const codes = STN_DATA[s.name];
+    const codes = STN_DATA[s.key];
     if (!codes || !codes.length) return;
     const w1 = Math.max(9, s.lr * 0.34), w = Math.max(7, s.lr * 0.27);
-    const pos = STN_POS[s.name];
+    const pos = STN_POS[s.key];
 
     if (pos && pos.length) {
       // real in-sector positions (reconciled against the community map SVG)
@@ -235,7 +249,7 @@ export function createMap() {
     t.setAttribute('y', ((c.y - miny) * K).toFixed(1));
     t.setAttribute('class', 'clabel');
     t.style.setProperty('--fc', facColor(c.f));
-    t.textContent = c.name;
+    t.textContent = sectorLabel(c.name);
     gCluster.appendChild(t);
     return t;
   });
@@ -255,7 +269,19 @@ export function createMap() {
   const pinsHost = document.getElementById('mapPins');
   const clsRank = { S: 1, M: 2, L: 3 };
   const derelicts = derelictShips
-    .map(d => ({ ...d, sectorId: sectors.findIndex(s => s.name === d.sector) }))
+    .map(d => {
+      const key = d.slug.replaceAll('-', '_');
+      return {
+        ...d,
+        sectorKey: d.sector,
+        sector: sectorLabel(d.sector),
+        name: tr(`ships.${key}.name`, d.name),
+        role: tr(`ships.${key}.role`, d.role),
+        find: tr(`ships.${key}.find`, d.find),
+        claim: tr(`ships.${key}.claim`, d.claim),
+        sectorId: sectors.findIndex(s => s.key === d.sector),
+      };
+    })
     .filter(d => d.sectorId >= 0);
   const bySlug = {}; derelicts.forEach(d => bySlug[d.slug] = d);
   const derelictBySector = {};
@@ -325,14 +351,14 @@ export function createMap() {
   function renderShipsIndex() {
     if (!idxHost) return;
     const foundN = derelicts.reduce((n, d) => n + (isFound(d.slug) ? 1 : 0), 0);
-    idxHost.innerHTML = `<div class="si-h"><span>Derelict ships \u00b7 <span class="si-prog">${foundN}/${derelicts.length} found</span></span>${foundN ? '<button class="si-reset" data-reset-found>Reset</button>' : ''}</div>` +
+    idxHost.innerHTML = `<div class="si-h"><span>${esc(tr('runtime.derelict_progress', 'Derelict ships - {found}/{total} found', { found: foundN, total: derelicts.length }))}</span>${foundN ? `<button class="si-reset" data-reset-found>${esc(tr('runtime.reset', 'Reset'))}</button>` : ''}</div>` +
       derelicts.slice().sort((a, b) => clsRank[b.cls] - clsRank[a.cls]).map(d => {
         const f = isFound(d.slug);
         return `<button class="si-row${f ? ' found' : ''}" data-slug="${d.slug}">
           <span class="si-cls cls-${d.cls}${d.danger ? ' danger' : ''}">${d.cls}</span>
           <span class="si-info"><span class="si-name">${esc(d.name)}</span><span class="si-sec">${esc(d.sector)}</span></span>
           ${d.danger ? '<span class="si-warn">\u26a0</span>' : ''}
-          <span class="si-check" data-found="${d.slug}" role="checkbox" aria-checked="${f}" title="Mark as found">${f ? '\u2713' : ''}</span>
+          <span class="si-check" data-found="${d.slug}" role="checkbox" aria-checked="${f}" title="${esc(tr('runtime.mark_as_found', 'Mark as found'))}">${f ? '\u2713' : ''}</span>
         </button>`;
       }).join('');
     idxHost.querySelectorAll('.si-row').forEach(r => r.onclick = (e) => {
@@ -341,7 +367,7 @@ export function createMap() {
       const d = bySlug[r.dataset.slug]; if (d) selectSector(d.sectorId);
     });
     const rb = idxHost.querySelector('[data-reset-found]');
-    if (rb) rb.onclick = (e) => { e.stopPropagation(); if (confirm('Reset all \u201cfound\u201d markers for a new save?')) clearFound(); };
+    if (rb) rb.onclick = (e) => { e.stopPropagation(); if (confirm(tr('runtime.reset_derelicts_confirmation', 'Reset all found markers for a new save?'))) clearFound(); };
   }
   renderShipsIndex();
   updatePinFound();
@@ -349,7 +375,21 @@ export function createMap() {
   // ---- timeline-reward ships (mirrors derelicts; own violet lens, only shows when data exists) ----
   const pinsTlHost = document.getElementById('mapPinsTl');
   const timelineShips = timelineShipData
-    .map(d => ({ ...d, sectorId: sectors.findIndex(s => s.name === d.sector) }))
+    .map(d => {
+      const key = d.slug.replaceAll('-', '_');
+      return {
+        ...d,
+        sectorKey: d.sector,
+        sector: sectorLabel(d.sector),
+        name: tr(`timeline_ships.${key}.name`, d.name),
+        role: tr(`timeline_ships.${key}.role`, d.role),
+        req: tr(`timeline_ships.${key}.unlock`, d.req),
+        find: tr(`timeline_ships.${key}.find`, d.find),
+        claim: tr(`timeline_ships.${key}.claim`, d.claim),
+        dangerNote: tr(`timeline_ships.${key}.danger_note`, d.dangerNote || ''),
+        sectorId: sectors.findIndex(s => s.key === d.sector),
+      };
+    })
     .filter(d => d.sectorId >= 0);
   const bySlugTl = {}; timelineShips.forEach(d => bySlugTl[d.slug] = d);
   const timelineBySector = {};
@@ -387,14 +427,14 @@ export function createMap() {
   function renderTimelineIndex() {
     if (!idxTlHost || !timelineShips.length) return;
     const foundN = timelineShips.reduce((n, d) => n + (isFoundTl(d.slug) ? 1 : 0), 0);
-    idxTlHost.innerHTML = `<div class="si-h"><span>Derelict timeline ships · <span class="si-prog">${foundN}/${timelineShips.length} found</span></span>${foundN ? '<button class="si-reset" data-reset-tl>Reset</button>' : ''}</div>` +
+    idxTlHost.innerHTML = `<div class="si-h"><span>${esc(tr('runtime.timeline_progress', 'Derelict timeline ships - {found}/{total} found', { found: foundN, total: timelineShips.length }))}</span>${foundN ? `<button class="si-reset" data-reset-tl>${esc(tr('runtime.reset', 'Reset'))}</button>` : ''}</div>` +
       timelineShips.slice().sort((a, b) => clsRank[b.cls] - clsRank[a.cls]).map(d => {
         const f = isFoundTl(d.slug);
         return `<button class="si-row${f ? ' found' : ''}" data-slug="${d.slug}">
           <span class="si-cls cls-${d.cls}${d.danger ? ' danger' : ''}">${d.cls}</span>
           <span class="si-info"><span class="si-name">${esc(d.name)}</span><span class="si-sec">${d.tl ? esc(d.tl) + ' · ' : ''}${esc(d.sector)}</span></span>
           ${d.danger ? '<span class="si-warn">⚠</span>' : ''}
-          <span class="si-check" data-found-tl="${d.slug}" role="checkbox" aria-checked="${f}" title="Mark as found">${f ? '✓' : ''}</span>
+          <span class="si-check" data-found-tl="${d.slug}" role="checkbox" aria-checked="${f}" title="${esc(tr('runtime.mark_as_found', 'Mark as found'))}">${f ? '✓' : ''}</span>
         </button>`;
       }).join('');
     idxTlHost.querySelectorAll('.si-row').forEach(r => r.onclick = (e) => {
@@ -403,7 +443,7 @@ export function createMap() {
       const d = bySlugTl[r.dataset.slug]; if (!d) return; if (d.zoom != null) { selectSector(d.sectorId, false); flyTo(d.sectorId, true, d.zoom); } else selectSector(d.sectorId);
     });
     const rb = idxTlHost.querySelector('[data-reset-tl]');
-    if (rb) rb.onclick = (e) => { e.stopPropagation(); if (confirm('Reset all timeline-ship “found” markers?')) clearFoundTl(); };
+    if (rb) rb.onclick = (e) => { e.stopPropagation(); if (confirm(tr('runtime.reset_timeline_confirmation', 'Reset all timeline-ship found markers?'))) clearFoundTl(); };
   }
   renderTimelineIndex();
   updatePinFoundTl();
@@ -414,7 +454,7 @@ export function createMap() {
   // the game's own $HiveStationGateRange check. Union those sub-sectors into one node first,
   // then BFS only over real 'gate' edges, or distances come out one jump too safe.
   const khaakHives = khaakHiveData
-    .map(name => sectors.findIndex(s => s.name === name))
+    .map(name => sectors.findIndex(s => s.key === name))
     .filter(id => id >= 0);
   const khaakDist = (() => {
     const parent = sectors.map((_, i) => i);
@@ -447,7 +487,7 @@ export function createMap() {
   const khaakBtn = document.getElementById('lensKhaak');
   const khaakNote = document.getElementById('khaakNote');
   if (khaakBtn && khaakHives.length) khaakBtn.removeAttribute('hidden');
-  if (khaakNote && khaakHives.length) khaakNote.innerHTML = `<b>Kha'ak-safe sectors</b>, <span class="kn-n">${khaakSafeCount}</span> sectors lie more than 3 jumps from any of the ${khaakHives.length} Kha'ak hive sectors, so Kha'ak raids can't reach stations built there. <span class="kn-legend"><i class="kn-k kn-safe"></i>safe<i class="kn-k kn-near"></i>&le;3 jumps<i class="kn-k kn-hive"></i>hive</span>`;
+  if (khaakNote && khaakHives.length) khaakNote.textContent = tr('runtime.khaak_note', "Kha'ak-safe sectors, {safeCount} sectors lie more than 3 jumps from any of the {hiveCount} Kha'ak hive sectors.", { safeCount: khaakSafeCount, hiveCount: khaakHives.length });
   function setKhaak(on) {
     khaakMode = on;
     if (on) { terraformMode = false; root.classList.remove('terra-on'); if (terraBtn) { terraBtn.classList.remove('active'); terraBtn.setAttribute('aria-pressed', 'false'); } factionFilter = null; stationFilter.clear(); stationFilterUpdate(); document.querySelectorAll('.leg').forEach(x => x.classList.remove('active')); }
@@ -458,12 +498,12 @@ export function createMap() {
   if (khaakBtn) khaakBtn.onclick = () => setKhaak(!khaakMode);
 
   // ---- Terraforming overlay (highlight terraformable planet sectors; Cradle of Humanity) ----
-  const terraformSet = new Set(terraformSectors.map(n => sectors.findIndex(s => s.name === n)).filter(i => i >= 0));
+  const terraformSet = new Set(terraformSectors.map(n => sectors.findIndex(s => s.key === n)).filter(i => i >= 0));
   let terraformMode = false;
   const terraBtn = document.getElementById('lensTerraform');
   const terraNote = document.getElementById('terraformNote');
   if (terraBtn && terraformSet.size) terraBtn.removeAttribute('hidden');
-  if (terraNote && terraformSet.size) terraNote.innerHTML = `<b>Terraforming sectors</b>, <span class="tn-n">${terraformSet.size}</span> sectors across the terraformable clusters (Cradle of Humanity and Kingdom End DLCs). Relocate your HQ to one of these clusters to run a terraforming project.`;
+  if (terraNote && terraformSet.size) terraNote.textContent = tr('runtime.terraform_note', 'Terraforming sectors, {count} sectors across the terraformable clusters.', { count: terraformSet.size });
   function setTerraform(on) {
     terraformMode = on;
     if (on) {
@@ -537,7 +577,7 @@ export function createMap() {
       // station filter active: show ONLY the names of matching sectors (any zoom)
       clusterEls.forEach(t => t.classList.remove('show'));
       labelEls.forEach((l, i) => {
-        const m = (STN_DATA[sectors[i].name] || []).some(c => stationFilter.has(c));
+        const m = (STN_DATA[sectors[i].key] || []).some(c => stationFilter.has(c));
         l.classList.toggle('show', m);
         l.classList.toggle('match', m);
       });
@@ -638,16 +678,16 @@ export function createMap() {
     const s = sectors[id], f = fac[s.f] || fac.UNO, gates = neighbours[id].length;
     const der = (derelictBySector[id] || []).length, tl = (timelineBySector[id] || []).length;
     let ctx = '';
-    if (khaakMode) { const d = khaakDist[id]; ctx = d === 0 ? '<span class="hi-x">⬡ Kha\'ak hive</span>' : (d > 3 ? '<span class="hi-ok">⬡ Kha\'ak-safe · ' + d + ' jumps</span>' : '<span class="hi-warn">⬡ ' + d + ' jump' + (d === 1 ? '' : 's') + ' from a hive</span>'); }
-    else if (terraformMode && terraformSet.has(id)) ctx = '<span class="hi-tf">⊕ Terraformable</span>';
+    if (khaakMode) { const d = khaakDist[id]; ctx = d === 0 ? '<span class="hi-x">⬡ ' + esc(tr('runtime.khaak_hive', "Kha'ak hive")) + '</span>' : (d > 3 ? '<span class="hi-ok">⬡ ' + esc(tr('map.khaak_safe', "Kha'ak-safe")) + ' · ' + d + '</span>' : '<span class="hi-warn">⬡ ' + esc(tr('runtime.khaak_distance', '{count} jumps from a hive', { count: d })) + '</span>'); }
+    else if (terraformMode && terraformSet.has(id)) ctx = '<span class="hi-tf">⊕ ' + esc(tr('map.terraforming', 'Terraforming')) + '</span>';
     hoverInfoEl.innerHTML =
       '<div class="hi-name">' + esc(s.name) + '</div>' +
-      '<div class="hi-fac"><span class="hi-dot" style="background:' + f.color + '"></span>' + esc(f.short) + ' · ' + gates + ' gate' + (gates === 1 ? '' : 's') + '</div>' +
-      (der ? '<div class="hi-tag der">◆ ' + der + ' derelict' + (der === 1 ? '' : 's') + '</div>' : '') +
-      (tl ? '<div class="hi-tag tl">✦ ' + tl + ' timeline ship' + (tl === 1 ? '' : 's') + '</div>' : '') +
+      '<div class="hi-fac"><span class="hi-dot" style="background:' + f.color + '"></span>' + esc(f.short) + ' · ' + esc(tr('runtime.hover_gate_count', '{count} gates', { count: gates })) + '</div>' +
+      (der ? '<div class="hi-tag der">◆ ' + esc(tr('runtime.hover_derelict_count', '{count} derelicts', { count: der })) + '</div>' : '') +
+      (tl ? '<div class="hi-tag tl">✦ ' + esc(tr('runtime.hover_timeline_count', '{count} timeline ships', { count: tl })) + '</div>' : '') +
       (ctx ? '<div class="hi-tag">' + ctx + '</div>' : '') +
-      ((STN_DATA[s.name] && STN_DATA[s.name].length) ? '<div class="hi-stn"><div class="hi-stn-h">Stations</div>' + stationRows(s.name) + '</div>' : '') +
-      (sectorResources[s.name] ? '<div class="hi-rsc">' + resourceRows(id) + '</div>' : '');
+      ((STN_DATA[s.key] && STN_DATA[s.key].length) ? '<div class="hi-stn"><div class="hi-stn-h">' + tr('runtime.stations', 'Stations') + '</div>' + stationRows(s.key) + '</div>' : '') +
+      (sectorResources[s.key] ? '<div class="hi-rsc">' + resourceRows(id) + '</div>' : '');
     hoverInfoEl.classList.add('show');
     positionHoverInfo();
   }
@@ -663,10 +703,10 @@ export function createMap() {
   }
 
   // ---- minable resources -> golden 5-star rows (panel + tooltip) ----
-  const RSC_NAMES = { ore: 'Ore', silicon: 'Silicon', ice: 'Ice', nividium: 'Nividium', hydrogen: 'Hydrogen', helium: 'Helium', methane: 'Methane', rawscrap: 'Scrap', rawkhaakscrap: 'Kha\'ak Scrap' };
+  const RSC_NAMES = Object.fromEntries(['ore', 'silicon', 'ice', 'nividium', 'hydrogen', 'helium', 'methane', 'rawscrap', 'rawkhaakscrap'].map(code => [code, tr(`resources.${code}`, code)]));
   const RSC_ORDER = ['ore', 'silicon', 'ice', 'nividium', 'hydrogen', 'helium', 'methane', 'rawscrap', 'rawkhaakscrap'];
   function resourceRows(id) {
-    const r = sectorResources[sectors[id].name];
+    const r = sectorResources[sectors[id].key];
     if (!r) return null;
     return RSC_ORDER.filter(k => r[k]).map(k =>
       `<div class="rsc-row"><span class="rsc-name">${RSC_NAMES[k]}</span><span class="stars" style="--p:${r[k]}%" title="${r[k]}%"><i></i></span></div>`
@@ -720,7 +760,7 @@ export function createMap() {
         nodeEls[i].classList.remove('route-start', 'route-dest');
       } else {
         const sfActive = stationFilter.size > 0;
-        const hasStn = sfActive && (STN_DATA[s.name] || []).some(c => stationFilter.has(c));
+        const hasStn = sfActive && (STN_DATA[s.key] || []).some(c => stationFilter.has(c));
         const inFaction = !factionFilter || s.f === factionFilter;
         sel = i === selected; adj = !!(nb && nb.has(i));
         if (sfActive) dim = !hasStn && !sel;
@@ -858,28 +898,28 @@ export function createMap() {
       }).join('');
       return `
         <div class="pnl-route">
-          <div class="pnl-route-h"><span>&#8627; Route</span><span class="pnl-route-jumps">${jumps} jump${jumps === 1 ? '' : 's'}</span></div>
-          <div class="pnl-route-sub">From <b>${esc(sectors[routeStart].name)}</b>${xen ? ` &middot; <span class="rx">&#9888; crosses ${xen} Xenon sector${xen === 1 ? '' : 's'}</span>` : ''}</div>
+          <div class="pnl-route-h"><span>&#8627; ${esc(tr('runtime.route', 'Route'))}</span><span class="pnl-route-jumps">${esc(tr('runtime.jump_count', '{count} jumps', { count: jumps }))}</span></div>
+          <div class="pnl-route-sub">${esc(tr('runtime.route_from', 'From {start}', { start: sectors[routeStart].name }))}${xen ? ` &middot; <span class="rx">&#9888; ${esc(tr('runtime.route_crosses_xenon', 'crosses {count} Xenon sectors', { count: xen }))}</span>` : ''}</div>
           <ol class="pnl-route-steps">${steps}</ol>
           <div class="pnl-route-actions">
-            <button class="pnl-route-btn" data-route-start>Change start</button>
-            <button class="pnl-route-btn ghost" data-route-clear>Clear</button>
+            <button class="pnl-route-btn" data-route-start>${esc(tr('runtime.change_start', 'Change start'))}</button>
+            <button class="pnl-route-btn ghost" data-route-clear>${esc(tr('map.clear', 'Clear'))}</button>
           </div>
         </div>`;
     }
     if (routeDest === id && routeStart != null && !routePath) {
       return `<div class="pnl-route">
-        <div class="pnl-route-sub rx">&#9888; No gate route found from ${esc(sectors[routeStart].name)}.</div>
-        <div class="pnl-route-actions"><button class="pnl-route-btn" data-route-start>Try another start</button><button class="pnl-route-btn ghost" data-route-clear>Clear</button></div>
+        <div class="pnl-route-sub rx">&#9888; ${esc(tr('runtime.no_route_from', 'No gate route found from {start}.', { start: sectors[routeStart].name }))}</div>
+        <div class="pnl-route-actions"><button class="pnl-route-btn" data-route-start>${esc(tr('runtime.try_another_start', 'Try another start'))}</button><button class="pnl-route-btn ghost" data-route-clear>${esc(tr('map.clear', 'Clear'))}</button></div>
       </div>`;
     }
     if (routeDest === id && routeMode) {
       return `<div class="pnl-route picking">
-        <div class="pnl-route-sub">&#9678; Click your <b>start system</b> on the map&hellip;</div>
-        <div class="pnl-route-actions"><button class="pnl-route-btn ghost" data-route-cancel>Cancel</button></div>
+        <div class="pnl-route-sub">&#9678; ${esc(tr('runtime.route_pick_panel', 'Click your start system on the map...'))}</div>
+        <div class="pnl-route-actions"><button class="pnl-route-btn ghost" data-route-cancel>${esc(tr('runtime.cancel', 'Cancel'))}</button></div>
       </div>`;
     }
-    return `<div class="pnl-route"><button class="pnl-route-btn full" data-route-start>&#9656; Plan a route here</button></div>`;
+    return `<div class="pnl-route"><button class="pnl-route-btn full" data-route-start>&#9656; ${esc(tr('runtime.plan_route_here', 'Plan a route here'))}</button></div>`;
   }
 
   function renderPanel() {
@@ -891,15 +931,15 @@ export function createMap() {
       .sort((a, b) => a.name.localeCompare(b.name));
     const ships = derelictBySector[id] || [];
     const tlShips = timelineBySector[id] || [];
-    const stnCodes = (stationSectors)[s.name] || [];
+    const stnCodes = stationSectors[s.key] || [];
     const stationsHtml = stnCodes.length ? `
-      <div class="pnl-conn-h">Stations <span class="pnl-h2">// always spawn here</span></div>
+      <div class="pnl-conn-h">${esc(tr('runtime.stations', 'Stations'))} <span class="pnl-h2">${esc(tr('runtime.always_spawn_here', '// always spawn here'))}</span></div>
       <div class="pnl-stations">
-        ${stnCodes.map(code => { const t = (stationTypes)[code] || { name: code, sub: '', color: '#8aa' }; return `
+        ${stnCodes.map(code => { const t = STN_TYPES[code] || { name: code, sub: '', color: '#8aa' }; return `
           <div class="pnl-stn"><span class="pnl-stn-ico" style="color:${t.color}"><svg viewBox="0 0 16 14">${STN_BADGE}${STN_GLYPH[code] || ''}</svg></span><span class="pnl-stn-n">${esc(t.name)}</span><span class="pnl-stn-s">${esc(t.sub)}</span></div>`; }).join('')}
       </div>` : '';
     const shipsHtml = ships.length ? `
-      <div class="pnl-ships-h">◆ Derelict ships here · ${ships.length}</div>
+      <div class="pnl-ships-h">◆ ${esc(tr('runtime.derelicts_here', 'Derelict ships here - {count}', { count: ships.length }))}</div>
       <div class="pnl-ships">
         ${ships.map(d => `
           <div class="pnl-ship${d.danger ? ' danger' : ''}${isFound(d.slug) ? ' found' : ''}">
@@ -909,14 +949,14 @@ export function createMap() {
               <div class="pnl-ship-role">${esc(d.role)}${d.coords ? ' · <span class="mono">' + esc(d.coords) + '</span>' : ''}</div>
               <div class="pnl-ship-find">${esc(d.find)}</div>
               ${d.danger ? `<div class="pnl-ship-warn">⚠ ${esc(d.dangerNote || '')}</div>` : ''}
-              <a class="pnl-ship-link" href="https://veanturverse.com/guides/x4-derelict-ships.html#ship-${d.slug}">Open full guide &rarr;</a>
-              <button class="pnl-found${isFound(d.slug) ? ' on' : ''}" data-found="${d.slug}">${isFound(d.slug) ? '✓ Found' : 'Mark as found'}</button>
+              <a class="pnl-ship-link" href="https://veanturverse.com/guides/x4-derelict-ships.html#ship-${d.slug}">${esc(tr('runtime.open_full_guide', 'Open full guide'))} &rarr;</a>
+              <button class="pnl-found${isFound(d.slug) ? ' on' : ''}" data-found="${d.slug}">${isFound(d.slug) ? '✓ ' + esc(tr('runtime.found', 'Found')) : esc(tr('runtime.mark_as_found', 'Mark as found'))}</button>
             </div>
           </div>`).join('')}
       </div>` : '';
     const tlHtml = tlShips.length ? `
-      <div class="pnl-tl-h">✦ Derelict timeline ships here · ${tlShips.length}</div>
-      <div class="pnl-tl-note">⏳ Appears in-game only after the matching Timeline mission is completed.</div>
+      <div class="pnl-tl-h">✦ ${esc(tr('runtime.timeline_ships_here', 'Derelict timeline ships here - {count}', { count: tlShips.length }))}</div>
+      <div class="pnl-tl-note">⏳ ${esc(tr('runtime.timeline_availability', 'Appears in-game only after the matching Timeline mission is completed.'))}</div>
       <div class="pnl-tl">
         ${tlShips.map(d => `
           <div class="pnl-tl-ship${d.danger ? ' danger' : ''}${isFoundTl(d.slug) ? ' found' : ''}">
@@ -924,31 +964,31 @@ export function createMap() {
             <div class="pnl-ship-body">
               <div class="pnl-tl-top">${d.tl ? `<span class="pnl-tl-num">${esc(d.tl)}</span>` : ''}<span class="si-cls cls-${d.cls}${d.danger ? ' danger' : ''}">${d.cls}</span><span class="pnl-tl-name">${esc(d.name)}</span></div>
               ${(d.role || d.coords) ? `<div class="pnl-tl-role">${esc(d.role || '')}${(d.role && d.coords) ? ' · ' : ''}${d.coords ? '<span class="mono">' + esc(d.coords) + '</span>' : ''}</div>` : ''}
-              ${d.req ? `<div class="pnl-tl-req"><b>Unlock:</b> ${esc(d.req)}</div>` : ''}
+              ${d.req ? `<div class="pnl-tl-req"><b>${esc(tr('runtime.unlock', 'Unlock:'))}</b> ${esc(d.req)}</div>` : ''}
               ${d.find ? `<div class="pnl-tl-find">${esc(d.find)}</div>` : ''}
               ${d.claim ? `<div class="pnl-tl-find">${esc(d.claim)}</div>` : ''}
               ${d.danger ? `<div class="pnl-ship-warn">⚠ ${esc(d.dangerNote || '')}</div>` : ''}
-              <a class="pnl-ship-link" style="color:#c4a5f7" href="https://veanturverse.com/guides/x4-derelict-ships.html#ship-${d.slug}">Open full guide &rarr;</a>
-              <button class="pnl-found${isFoundTl(d.slug) ? ' on' : ''}" data-found-tl="${d.slug}">${isFoundTl(d.slug) ? '✓ Found' : 'Mark as found'}</button>
+              <a class="pnl-ship-link" style="color:#c4a5f7" href="https://veanturverse.com/guides/x4-derelict-ships.html#ship-${d.slug}">${esc(tr('runtime.open_full_guide', 'Open full guide'))} &rarr;</a>
+              <button class="pnl-found${isFoundTl(d.slug) ? ' on' : ''}" data-found-tl="${d.slug}">${isFoundTl(d.slug) ? '✓ ' + esc(tr('runtime.found', 'Found')) : esc(tr('runtime.mark_as_found', 'Mark as found'))}</button>
             </div>
           </div>`).join('')}
       </div>` : '';
     panel.innerHTML = `
-      <button class="pnl-close" aria-label="Close" data-close>&times;</button>
-      <div class="pnl-kicker">Sector // #${String(id).padStart(3,'0')}</div>
+      <button class="pnl-close" aria-label="${esc(tr('accessibility.close', 'Close'))}" data-close>&times;</button>
+      <div class="pnl-kicker">${esc(tr('runtime.sector_number', 'Sector // #{number}', { number: String(id).padStart(3,'0') }))}</div>
       <h3 class="pnl-name">${esc(s.name)}</h3>
       <div class="pnl-fac"><span class="pnl-dot" style="background:${f.color}"></span>${esc(f.name)}</div>
       <div class="pnl-meta">
-        <div><span class="pnl-lbl">Owner</span><span>${esc(f.short)}</span></div>
-        <div><span class="pnl-lbl">Gate links</span><span>${conns.length}</span></div>
+        <div><span class="pnl-lbl">${esc(tr('runtime.owner', 'Owner'))}</span><span>${esc(f.short)}</span></div>
+        <div><span class="pnl-lbl">${esc(tr('runtime.gate_links', 'Gate links'))}</span><span>${conns.length}</span></div>
       </div>
-      <div class="pnl-rsc-h">Minable resources</div>
-      ${(() => { const rows = resourceRows(id); return rows ? `<div class="pnl-rsc">${rows}</div>` : '<div class="rsc-none">None in this sector</div>'; })()}
+      <div class="pnl-rsc-h">${esc(tr('runtime.minable_resources', 'Minable resources'))}</div>
+      ${(() => { const rows = resourceRows(id); return rows ? `<div class="pnl-rsc">${rows}</div>` : `<div class="rsc-none">${esc(tr('runtime.none_in_sector', 'None in this sector'))}</div>`; })()}
       ${stationsHtml}
       ${shipsHtml}
       ${tlHtml}
       ${buildRouteBox(id)}
-      <div class="pnl-conn-h">Connections</div>
+      <div class="pnl-conn-h">${esc(tr('runtime.connections', 'Connections'))}</div>
       <ul class="pnl-conn">
         ${conns.map(c => `<li data-go="${c.id}"><span class="pnl-dot sm" style="background:${facColor(c.f)}"></span><span class="pnl-cn">${esc(c.name)}</span>${c.type==='hw'?'<span class="pnl-hw">SH</span>':'<span class="pnl-gt">GATE</span>'}</li>`).join('')}
       </ul>`;
@@ -1069,7 +1109,7 @@ export function createMap() {
     const counts = {};
     Object.values(STN_DATA).forEach(arr => arr.forEach(c => counts[c] = (counts[c] || 0) + 1));
     const order = ['SY', 'WH', 'EQ', 'TR', 'HQ', 'PB'].filter(c => STN_TYPES[c]);
-    host.innerHTML = `<div class="sf-h"><span>Find a station</span><span class="sf-clear" data-clear>Clear</span></div>
+    host.innerHTML = `<div class="sf-h"><span>${esc(tr('map.find_a_station', 'Find a station'))}</span><span class="sf-clear" data-clear>${esc(tr('map.clear', 'Clear'))}</span></div>
       <div class="sf-chips">${order.map(c => { const t = STN_TYPES[c]; const lbl = t.name.replace(' Station', '').replace(' Dock', ''); return `
         <button class="sf-chip" data-stn="${c}" style="--sc:${t.color}" title="${esc(t.name)}, ${counts[c] || 0} sectors">
           <span class="sf-ico"><svg viewBox="0 0 16 14">${STN_BADGE}${STN_GLYPH[c] || ''}</svg></span>
@@ -1082,9 +1122,9 @@ export function createMap() {
       host.querySelectorAll('.sf-chip').forEach(b => b.classList.toggle('active', stationFilter.has(b.dataset.stn)));
       clearEl.classList.toggle('show', stationFilter.size > 0);
       if (stationFilter.size) {
-        const n = sectors.filter(s => (STN_DATA[s.name] || []).some(c => stationFilter.has(c))).length;
+        const n = sectors.filter(s => (STN_DATA[s.key] || []).some(c => stationFilter.has(c))).length;
         const names = [...stationFilter].map(c => STN_TYPES[c].name).join(' / ');
-        countEl.textContent = `${n} system${n === 1 ? '' : 's'} · ${names}`;
+        countEl.textContent = tr('runtime.station_system_count', '{count} systems - {names}', { count: n, names });
       } else countEl.textContent = '';
       refreshEmphasis();
     }
@@ -1123,8 +1163,8 @@ export function createMap() {
     search.addEventListener('input', () => {
       const q = search.value.trim().toLowerCase();
       if (!q) { results.classList.remove('show'); return; }
-      const hits = sectors.map((s, i) => ({ s, i })).filter(o => o.s.name.toLowerCase().includes(q)).slice(0, 8);
-      results.innerHTML = hits.map(o => `<li data-go="${o.i}"><span class="pnl-dot sm" style="background:${facColor(o.s.f)}"></span>${esc(o.s.name)}</li>`).join('') || '<li class="no">No match</li>';
+      const hits = sectors.map((s, i) => ({ s, i })).filter(o => o.s.name.toLowerCase().includes(q) || o.s.key.toLowerCase().includes(q)).slice(0, 8);
+      results.innerHTML = hits.map(o => `<li data-go="${o.i}"><span class="pnl-dot sm" style="background:${facColor(o.s.f)}"></span>${esc(o.s.name)}</li>`).join('') || `<li class="no">${esc(tr('map.no_match', 'No match'))}</li>`;
       results.classList.add('show');
       results.querySelectorAll('[data-go]').forEach(li => li.onclick = () => { const id = +li.dataset.go; selectSector(id); flyTo(id); results.classList.remove('show'); search.value = sectors[id].name; });
     });
@@ -1153,8 +1193,8 @@ export function createMap() {
         setId(null);
         const q = input.value.trim().toLowerCase();
         if (!q) { resEl.classList.remove('show'); return; }
-        const hits = sectors.map((s, i) => ({ s, i })).filter(o => o.s.name.toLowerCase().includes(q)).slice(0, 8);
-        resEl.innerHTML = hits.map(o => `<li data-id="${o.i}"><span class="pnl-dot sm" style="background:${facColor(o.s.f)}"></span>${esc(o.s.name)}</li>`).join('') || '<li class="no">No match</li>';
+        const hits = sectors.map((s, i) => ({ s, i })).filter(o => o.s.name.toLowerCase().includes(q) || o.s.key.toLowerCase().includes(q)).slice(0, 8);
+        resEl.innerHTML = hits.map(o => `<li data-id="${o.i}"><span class="pnl-dot sm" style="background:${facColor(o.s.f)}"></span>${esc(o.s.name)}</li>`).join('') || `<li class="no">${esc(tr('map.no_match', 'No match'))}</li>`;
         resEl.classList.add('show');
         resEl.querySelectorAll('[data-id]').forEach(li => li.onclick = () => { const id = +li.dataset.id; setId(id); input.value = sectors[id].name; resEl.classList.remove('show'); });
       });
@@ -1163,11 +1203,11 @@ export function createMap() {
     bindPicker(fromIn, fromRes, id => { fromId = id; });
     bindPicker(toIn, toRes, id => { toId = id; });
     document.getElementById('rpGo').onclick = () => {
-      if (fromId == null || toId == null) return setMsg('Pick both a start and a destination.', 'warn');
-      if (fromId === toId) return setMsg('Start and destination are the same sector.', 'warn');
+      if (fromId == null || toId == null) return setMsg(tr('runtime.route_pick_both', 'Pick both a start and a destination.'), 'warn');
+      if (fromId === toId) return setMsg(tr('runtime.route_same_sector', 'Start and destination are the same sector.'), 'warn');
       const path = planRoute(fromId, toId);
-      if (!path) setMsg('No gate route exists between these two sectors.', 'warn');
-      else { const j = path.length - 1; setMsg(j + ' jump' + (j === 1 ? '' : 's') + ' · route plotted.', 'ok'); }
+      if (!path) setMsg(tr('runtime.route_not_found', 'No gate route exists between these two sectors.'), 'warn');
+      else { const j = path.length - 1; setMsg(tr('runtime.route_plotted', '{count} jumps - route plotted.', { count: j }), 'ok'); }
     };
     document.getElementById('rpClear').onclick = () => {
       fromId = null; toId = null; fromIn.value = ''; toIn.value = ''; setMsg('');
@@ -1195,7 +1235,7 @@ export function createMap() {
     const p = new URLSearchParams(location.search);
     const sh = p.get('ship'), se = p.get('sector'), tl = p.get('tlship');
     const rf = p.get('from'), rt = p.get('to');
-    const byName = n => sectors.findIndex(s => s.name.toLowerCase() === String(n).toLowerCase());
+    const byName = n => sectors.findIndex(s => s.name.toLowerCase() === String(n).toLowerCase() || s.key.toLowerCase() === String(n).toLowerCase());
     if (rf && rt) { const a = byName(rf), b = byName(rt); if (a >= 0 && b >= 0) planRoute(a, b); }
     else if (sh && bySlug[sh]) { setLens(true); const id = bySlug[sh].sectorId; selectSector(id); flyTo(id, true); }
     else if (tl && bySlugTl[tl]) { setTimelineLens(true); const d = bySlugTl[tl]; selectSector(d.sectorId, false); flyTo(d.sectorId, true, d.zoom); }
@@ -1208,8 +1248,8 @@ export function createMap() {
   window.X4Map = {
     selectSector, fit, setStyle, setLens, setKhaak, setTerraform, planRoute,
     route: (fromName, toName) => {
-      const a = sectors.findIndex(s => s.name.toLowerCase() === String(fromName).toLowerCase());
-      const b = sectors.findIndex(s => s.name.toLowerCase() === String(toName).toLowerCase());
+      const a = sectors.findIndex(s => s.name.toLowerCase() === String(fromName).toLowerCase() || s.key.toLowerCase() === String(fromName).toLowerCase());
+      const b = sectors.findIndex(s => s.name.toLowerCase() === String(toName).toLowerCase() || s.key.toLowerCase() === String(toName).toLowerCase());
       return (a >= 0 && b >= 0) ? planRoute(a, b) : null;
     },
   };
