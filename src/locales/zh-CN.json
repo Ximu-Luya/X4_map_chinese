@@ -50,7 +50,7 @@
     "clear": "清除",
     "search_sector_placeholder": "搜索星区...",
     "recenter_on_click": "点击后重新居中",
-    "drag_zoom_hint": "拖动平移 - 滚轮缩放 - 点击星区",
+    "drag_zoom_hint": "拖动平移 - 滚轮缩放 - 方向键 / WASD 移动 - 点击星区",
     "route_pick_hint": "点击起始星系 - 按 Esc 取消",
     "no_match": "无匹配结果",
     "find_a_station": "查找空间站",

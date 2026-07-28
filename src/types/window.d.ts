@@ -8,6 +8,7 @@ export interface X4MapApi {
   setKhaak: (enabled: boolean) => void
   setTerraform: (enabled: boolean) => void
   planRoute: (startId: number, destinationId: number) => number[] | null
+  panBy: (x: number, y: number) => void
   route: (fromName: string, toName: string) => number[] | null
 }
 

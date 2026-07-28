@@ -532,6 +532,20 @@ export function createMap(options = {}) {
     updateLabelVisibility();
     updatePins();
   }
+  let panFrame = 0, pendingPanX = 0, pendingPanY = 0;
+  function panBy(dx, dy) {
+    pendingPanX += dx;
+    pendingPanY += dy;
+    if (panFrame) return;
+    panFrame = requestAnimationFrame(() => {
+      tx += pendingPanX;
+      ty += pendingPanY;
+      pendingPanX = 0;
+      pendingPanY = 0;
+      panFrame = 0;
+      apply();
+    });
+  }
   function fit(pad = 0.08) {
     measure();
     const s = Math.min(vw / WORLD_W, vh / WORLD_H) * (1 - pad);
@@ -612,6 +626,7 @@ export function createMap(options = {}) {
   // ---- pointer interaction ----
   let dragging = false, moved = false, px = 0, py = 0, downX = 0, downY = 0;
   svg.addEventListener('pointerdown', e => {
+    root.focus({ preventScroll: true });
     dragging = true; moved = false;
     px = downX = e.clientX; py = downY = e.clientY;
     // NOTE: do NOT capture here, capturing on pointerdown redirects the
@@ -1246,7 +1261,7 @@ export function createMap(options = {}) {
 
   // expose minimal api
   window.X4Map = {
-    selectSector, fit, setStyle, setLens, setKhaak, setTerraform, planRoute,
+    selectSector, fit, setStyle, setLens, setKhaak, setTerraform, planRoute, panBy,
     route: (fromName, toName) => {
       const a = sectors.findIndex(s => s.name.toLowerCase() === String(fromName).toLowerCase() || s.key.toLowerCase() === String(fromName).toLowerCase());
       const b = sectors.findIndex(s => s.name.toLowerCase() === String(toName).toLowerCase() || s.key.toLowerCase() === String(toName).toLowerCase());

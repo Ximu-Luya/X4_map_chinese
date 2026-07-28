@@ -50,7 +50,7 @@
     "clear": "Clear",
     "search_sector_placeholder": "Search sector...",
     "recenter_on_click": "Recenter on click",
-    "drag_zoom_hint": "Drag to pan - Scroll to zoom - Click a sector",
+    "drag_zoom_hint": "Drag to pan - Scroll to zoom - Arrow keys / WASD to move - Click a sector",
     "route_pick_hint": "Click your start system - Esc to cancel",
     "no_match": "No match",
     "find_a_station": "Find a station",

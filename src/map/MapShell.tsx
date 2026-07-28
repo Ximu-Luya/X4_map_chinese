@@ -1,17 +1,29 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { createMap } from './createMap'
+import { useMapKeyboard } from './keyboard'
+import type { X4MapApi } from '../types/window'
 
 export function MapShell() {
   const { t } = useTranslation()
+  const rootRef = useRef<HTMLElement>(null)
+  const apiRef = useRef<X4MapApi | null>(null)
+
+  useMapKeyboard(rootRef, apiRef)
 
   useEffect(() => {
-    createMap({ t })
+    apiRef.current = createMap({ t }) ?? null
   }, [t])
 
   return (
-    <section id="mapRoot" aria-label={t('accessibility.interactive_map')}>
+    <section
+      ref={rootRef}
+      id="mapRoot"
+      aria-label={t('accessibility.interactive_map')}
+      aria-keyshortcuts="ArrowUp ArrowDown ArrowLeft ArrowRight W A S D"
+      tabIndex={0}
+    >
       <svg id="mapSvg" xmlns="http://www.w3.org/2000/svg">
         <g id="gViewport">
           <g id="gEdges" />
