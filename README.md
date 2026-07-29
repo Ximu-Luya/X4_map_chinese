@@ -1,4 +1,4 @@
-# X4 宇宙地图中文工程
+# X4 Foundations Interactive Map
 
 本仓库将 Veanturverse 发布的 X4 v9.0 交互式宇宙地图重构为可开发、可测试、可本地化的 Vite + React + TypeScript 前端工程。
 

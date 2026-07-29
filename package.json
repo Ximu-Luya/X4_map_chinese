@@ -1,5 +1,5 @@
 {
-  "name": "x4-universe-map-chinese",
+  "name": "x4-foundations-interactive-map",
   "version": "0.1.0",
   "description": "可本地化、可扩展的 X4: Foundations 交互式宇宙地图",
   "private": true,
