@@ -1,6 +1,8 @@
 # Crowdin's native GitHub integration supplies project credentials.
 # Never add project IDs or personal access tokens to this file.
 preserve_hierarchy: true
+commit_message: 'chore(i18n): 更新 Crowdin 翻译'
+append_commit_message: false
 export_languages:
   - zh-CN
 

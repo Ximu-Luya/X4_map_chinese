@@ -16,6 +16,31 @@ import { localeMetadata, resolveInitialLocale, supportedLocales } from '../../sr
 import enUS from '../../src/locales/en-US.json'
 import zhCN from '../../src/locales/zh-CN.json'
 
+const intentionallySharedWithSource = [
+  'factions.ARG.short',
+  'factions.BOR.short',
+  'factions.PAR.short',
+  'factions.QUE.name',
+  'factions.QUE.short',
+  'factions.RIP.short',
+  'factions.TEL.short',
+  'factions.TER.short',
+  'factions.VIG.short',
+  'factions.XEN.name',
+  'factions.XEN.short',
+  'factions.YAK.name',
+  'factions.YAK.short',
+  'navigation.star_citizen',
+  'navigation.youtube',
+  'resources.nividium',
+  'sectors.Quettanauts',
+  'sectors.Xenon',
+  'sectors.Yaki',
+  'timeline_ships.xenon_b.name',
+  'timeline_ships.xenon_f.name',
+  'timeline_ships.xenon_h.name',
+] as const
+
 function flattenMessages(value: unknown, prefix = ''): Record<string, string> {
   if (typeof value === 'string') return { [prefix]: value }
   if (!value || typeof value !== 'object' || Array.isArray(value)) {
@@ -77,6 +102,15 @@ describe('本地化资源', () => {
         [...collectArguments(sourceAst)].sort(),
       )
     })
+  })
+
+  it('目标语言只允许已审阅的专有名词保留源文', () => {
+    const sourceMessages = flattenMessages(enUS)
+    const translatedMessages = flattenMessages(zhCN)
+    const sharedMessages = Object.keys(sourceMessages)
+      .filter((key) => sourceMessages[key] === translatedMessages[key])
+      .sort()
+    expect(sharedMessages).toEqual([...intentionallySharedWithSource].sort())
   })
 
   it('语言元数据覆盖所有语言且只有一个源语言', () => {
