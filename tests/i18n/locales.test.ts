@@ -4,6 +4,7 @@ import {
   isNumberElement,
   isPluralElement,
   isSelectElement,
+  isStructurallySame,
   isTagElement,
   isTimeElement,
   parse,
@@ -47,9 +48,9 @@ function collectArguments(elements: MessageFormatElement[], names = new Set<stri
   return names
 }
 
-function parseArguments(locale: string, key: string, message: string): string[] {
+function parseMessage(locale: string, key: string, message: string): MessageFormatElement[] {
   try {
-    return [...collectArguments(parse(message))].sort()
+    return parse(message)
   } catch (error) {
     throw new Error(`${locale} 的 ${key} 不是合法 ICU 消息`, { cause: error })
   }
@@ -66,8 +67,14 @@ describe('本地化资源', () => {
     const sourceMessages = flattenMessages(enUS)
     const translatedMessages = flattenMessages(zhCN)
     Object.entries(sourceMessages).forEach(([key, source]) => {
-      expect(parseArguments('zh-CN', key, translatedMessages[key])).toEqual(
-        parseArguments('en-US', key, source),
+      const sourceAst = parseMessage('en-US', key, source)
+      const translatedAst = parseMessage('zh-CN', key, translatedMessages[key])
+      const structure = isStructurallySame(sourceAst, translatedAst)
+      if (!structure.success) {
+        throw new Error(`zh-CN 的 ${key} 与源语言 ICU 结构不一致`, { cause: structure.error })
+      }
+      expect([...collectArguments(translatedAst)].sort()).toEqual(
+        [...collectArguments(sourceAst)].sort(),
       )
     })
   })
