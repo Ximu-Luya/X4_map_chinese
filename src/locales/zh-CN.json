@@ -1,10 +1,4 @@
 {
-  "_meta": {
-    "locale": "zh_CN",
-    "language_name": "简体中文",
-    "source_locale": false,
-    "description": "X4 交互式地图页面的简体中文本地化。请勿改动 {count}、{sector}、{start} 等占位符。"
-  },
   "seo": {
     "page_title": "X4: 基石 v9.0 交互式地图、宇宙、免费及废弃舰船 | Veanturverse",
     "description": "适用于 v9.0 的 X4 交互式星系与星区地图，涵盖全部 DLC 的所有星区、势力和星门，并标出免费、废弃及无主舰船的位置，提供星门航线规划。支持拖动、缩放和搜索。",

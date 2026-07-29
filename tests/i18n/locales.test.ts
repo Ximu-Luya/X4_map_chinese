@@ -1,18 +1,80 @@
+import {
+  isArgumentElement,
+  isDateElement,
+  isNumberElement,
+  isPluralElement,
+  isSelectElement,
+  isTagElement,
+  isTimeElement,
+  parse,
+  type MessageFormatElement,
+} from '@formatjs/icu-messageformat-parser'
+
 import { universeData } from '../../src/data'
-import { resolveInitialLocale } from '../../src/i18n'
+import { localeMetadata, resolveInitialLocale, supportedLocales } from '../../src/i18n'
 import enUS from '../../src/locales/en-US.json'
 import zhCN from '../../src/locales/zh-CN.json'
 
-function flattenKeys(value: unknown, prefix = ''): string[] {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return [prefix]
-  return Object.entries(value).flatMap(([key, child]) =>
-    flattenKeys(child, prefix ? `${prefix}.${key}` : key),
+function flattenMessages(value: unknown, prefix = ''): Record<string, string> {
+  if (typeof value === 'string') return { [prefix]: value }
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    throw new TypeError(`本地化键 ${prefix || '<root>'} 必须是字符串或对象`)
+  }
+  return Object.fromEntries(
+    Object.entries(value).flatMap(([key, child]) =>
+      Object.entries(flattenMessages(child, prefix ? `${prefix}.${key}` : key)),
+    ),
   )
+}
+
+function collectArguments(elements: MessageFormatElement[], names = new Set<string>()): Set<string> {
+  elements.forEach((element) => {
+    if (
+      isArgumentElement(element) ||
+      isNumberElement(element) ||
+      isDateElement(element) ||
+      isTimeElement(element) ||
+      isSelectElement(element) ||
+      isPluralElement(element)
+    ) {
+      names.add(element.value)
+    }
+    if (isSelectElement(element) || isPluralElement(element)) {
+      Object.values(element.options).forEach((option) => collectArguments(option.value, names))
+    }
+    if (isTagElement(element)) collectArguments(element.children, names)
+  })
+  return names
+}
+
+function parseArguments(locale: string, key: string, message: string): string[] {
+  try {
+    return [...collectArguments(parse(message))].sort()
+  } catch (error) {
+    throw new Error(`${locale} 的 ${key} 不是合法 ICU 消息`, { cause: error })
+  }
 }
 
 describe('本地化资源', () => {
   it('中英文具有完全相同的键集合', () => {
-    expect(flattenKeys(zhCN).sort()).toEqual(flattenKeys(enUS).sort())
+    expect(Object.keys(flattenMessages(zhCN)).sort()).toEqual(
+      Object.keys(flattenMessages(enUS)).sort(),
+    )
+  })
+
+  it('全部消息均符合 ICU 语法且保留源语言变量', () => {
+    const sourceMessages = flattenMessages(enUS)
+    const translatedMessages = flattenMessages(zhCN)
+    Object.entries(sourceMessages).forEach(([key, source]) => {
+      expect(parseArguments('zh-CN', key, translatedMessages[key])).toEqual(
+        parseArguments('en-US', key, source),
+      )
+    })
+  })
+
+  it('语言元数据覆盖所有语言且只有一个源语言', () => {
+    expect(Object.keys(localeMetadata).sort()).toEqual([...supportedLocales].sort())
+    expect(Object.values(localeMetadata).filter(({ sourceLanguage }) => sourceLanguage)).toHaveLength(1)
   })
 
   it('覆盖全部星区和阵营', () => {

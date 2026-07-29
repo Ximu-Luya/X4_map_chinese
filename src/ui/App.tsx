@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { derelictShips, timelineShips, universeData } from '../data'
-import { switchLocale, type SupportedLocale } from '../i18n'
+import { localeMetadata, normalizeLocale, supportedLocales, switchLocale } from '../i18n'
 import { MapShell } from '../map/MapShell'
 
 const upstream = 'https://veanturverse.com'
@@ -17,7 +17,7 @@ function Header() {
     [t('navigation.star_citizen'), `${upstream}/star-citizen.html`],
     [t('navigation.recruit_bonus'), `${upstream}/Referral.html`],
   ]
-  const activeLocale: SupportedLocale = i18n.language.startsWith('zh') ? 'zh-CN' : 'en-US'
+  const activeLocale = normalizeLocale(i18n.resolvedLanguage ?? i18n.language) ?? 'en-US'
 
   return (
     <header className="sticky top-0 z-40 h-16 border-b border-subtle/80 bg-base/95 backdrop-blur-xl">
@@ -38,7 +38,7 @@ function Header() {
         </nav>
         <div className="flex items-center gap-3">
           <div className="flex border border-line bg-surface p-0.5 font-mono text-[10px]">
-            {(['zh-CN', 'en-US'] as const).map((locale) => (
+            {supportedLocales.map((locale) => (
               <button
                 key={locale}
                 type="button"
@@ -46,7 +46,7 @@ function Header() {
                 aria-pressed={activeLocale === locale}
                 onClick={() => activeLocale !== locale && switchLocale(locale)}
               >
-                {locale === 'zh-CN' ? '中文' : 'EN'}
+                {localeMetadata[locale].shortLabel}
               </button>
             ))}
           </div>
@@ -263,11 +263,12 @@ export function App() {
   const { t, i18n } = useTranslation()
 
   useEffect(() => {
-    document.documentElement.lang = i18n.language.startsWith('zh') ? 'zh-CN' : 'en-US'
+    document.documentElement.lang =
+      normalizeLocale(i18n.resolvedLanguage ?? i18n.language) ?? 'en-US'
     document.title = t('seo.page_title')
     const description = document.querySelector<HTMLMetaElement>('meta[name="description"]')
     if (description) description.content = t('seo.description')
-  }, [i18n.language, t])
+  }, [i18n.language, i18n.resolvedLanguage, t])
 
   return (
     <div className="min-h-screen bg-base text-ink">

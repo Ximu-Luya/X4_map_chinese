@@ -1,10 +1,4 @@
 {
-  "_meta": {
-    "locale": "en_US",
-    "language_name": "English (United States)",
-    "source_locale": true,
-    "description": "Source strings for the X4 interactive-map page. Keep placeholders such as {count}, {sector}, and {start} unchanged."
-  },
   "seo": {
     "page_title": "X4 Foundations Interactive Map v9.0, Universe, Free & Derelict Ships | Veanturverse",
     "description": "Interactive X4 galaxy & sector map for v9.0, every sector, faction and gate across all DLCs, plus free, derelict & abandoned ship locations and a jump-gate route planner. Pan, zoom, search.",

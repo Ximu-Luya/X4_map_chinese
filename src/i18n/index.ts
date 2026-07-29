@@ -8,9 +8,28 @@ import zhCN from '../locales/zh-CN.json'
 export const supportedLocales = ['zh-CN', 'en-US'] as const
 export type SupportedLocale = (typeof supportedLocales)[number]
 
+export type LocaleMetadata = {
+  languageName: string
+  shortLabel: string
+  sourceLanguage: boolean
+}
+
+export const localeMetadata: Record<SupportedLocale, LocaleMetadata> = {
+  'zh-CN': {
+    languageName: '简体中文',
+    shortLabel: '中文',
+    sourceLanguage: false,
+  },
+  'en-US': {
+    languageName: 'English (United States)',
+    shortLabel: 'EN',
+    sourceLanguage: true,
+  },
+}
+
 const localeStorageKey = 'x4_map_locale'
 
-function normalizeLocale(value: string | null): SupportedLocale | null {
+export function normalizeLocale(value: string | null): SupportedLocale | null {
   if (!value) return null
   const normalized = value.toLowerCase()
   if (normalized === 'zh-cn' || normalized === 'zh_cn' || normalized === 'zh') return 'zh-CN'
