@@ -91,10 +91,10 @@
     "route_plotted": "已绘制航线，共 {count} {count, plural, one {次跳跃} other {次跳跃}}。",
     "khaak_note": "免受 Kha'ak 袭扰的星区：{safeCount} 个星区距 {hiveCount} 个 Kha'ak 巢穴星区均超过 3 次跳跃，因此 Kha'ak 袭击无法抵达建在这些星区的空间站。安全 - ≤3 次跳跃 - 巢穴",
     "terraform_note": "地球化改造星区：可改造星团中共有 {count} 个星区（人类摇篮和王国末路 DLC）。将总部迁至其中一个星团，即可开展地球化改造项目。",
-    "hover_timeline_count": "{count} 艘时间线舰船",
+    "hover_timeline_count": "{count} {count, plural, one {timeline ship} other {timeline ships}}",
     "khaak_hive": "Kha'ak 巢穴",
-    "khaak_distance": "距巢穴 {count} 次跳跃",
-    "station_system_count": "{count} 个星系 - {names}",
+    "khaak_distance": "{count} {count, plural, one {jump} other {jumps}} from a hive",
+    "station_system_count": "{count} {count, plural, one {system} other {systems}} - {names}",
     "route_pick_both": "请选择起点和终点。",
     "route_same_sector": "起点和终点是同一个星区。"
   },
