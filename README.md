@@ -15,6 +15,8 @@ npm run dev
 
 默认打开简体中文界面，可通过页面右上角切换英文，也可使用 `?lang=zh-CN` 或 `?lang=en-US`。
 
+目标语言通过 Crowdin 协作和审核，具体约束见 [`docs/localization.md`](./docs/localization.md)。
+
 ## 常用命令
 
 ```bash

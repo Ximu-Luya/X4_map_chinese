@@ -1,0 +1,12 @@
+# Crowdin's native GitHub integration supplies project credentials.
+# Never add project IDs or personal access tokens to this file.
+preserve_hierarchy: true
+export_languages:
+  - zh-CN
+
+files:
+  - source: /src/locales/en-US.json
+    translation: /src/locales/%locale%.json
+    languages_mapping:
+      locale:
+        zh-CN: zh-CN
